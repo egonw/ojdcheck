@@ -35,6 +35,13 @@ package com.github.ojdcheck.test;
 public interface ITestReport {
 
     /**
+     * Returns the {@link Class} for which the test failed.
+     *
+     * @return the {@link Class} with the failing test 
+     */
+    public Class<?> getTestedClass();
+
+    /**
      * Returns the line at which the fail starts.
      *
      * @return an <code>int</code> indicating the start line 

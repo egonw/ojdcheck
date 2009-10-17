@@ -35,10 +35,12 @@ public class TestReport implements ITestReport {
     private Integer endLine = null;
     private IClassDocTester test = null;
     private String failMessage = "";
+    private Class<?> testedClass;
 
-    public TestReport(IClassDocTester test, String failMessage,
-                      Integer startLine, Integer endLine){
+    public TestReport(IClassDocTester test, Class<?> testedClass,
+                      String failMessage, Integer startLine, Integer endLine){
         this.test = test;
+        this.testedClass = testedClass;
         this.failMessage = failMessage;
         this.startLine = startLine;
         this.endLine = endLine;
@@ -62,6 +64,11 @@ public class TestReport implements ITestReport {
 
     public String getFailMessage() {
         return this.failMessage;
+    }
+
+    @Override
+    public Class<?> getTestedClass() {
+        return this.testedClass;
     }
 
 }
