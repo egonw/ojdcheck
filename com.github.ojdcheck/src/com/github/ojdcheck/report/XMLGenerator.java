@@ -72,7 +72,8 @@ public class XMLGenerator implements IReportGenerator {
      */
     public void report(ITestReport report) throws IOException {
         writer.write(
-            "  <test class=\"" + report.getTestedClass().typeName() + "\">" +
+            "  <test class=\"" + report.getTestedClass().typeName() + " " +
+            		 "line=\"" + report.getStartLine() + "\">" +
             NEWLINE
         );
         writer.write(

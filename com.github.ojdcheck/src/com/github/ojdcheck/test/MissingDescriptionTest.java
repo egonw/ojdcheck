@@ -60,7 +60,8 @@ public class MissingDescriptionTest implements IClassDocTester {
                 new TestReport(
                     this, classDoc,
                     "No class documentation given.",
-                    null, null
+                    classDoc.position().line(),
+                    null
                 )
             );
         }
@@ -73,7 +74,8 @@ public class MissingDescriptionTest implements IClassDocTester {
                         this, classDoc,
                         "No documentation given for the method: " +
                         method.name(),
-                        null, null
+                        method.position().line(),
+                        null
                     )
                 );
             }
