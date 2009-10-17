@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.ojdcheck.report.IReportGenerator;
+import com.github.ojdcheck.report.XHTMLGenerator;
 import com.github.ojdcheck.report.XMLGenerator;
 import com.github.ojdcheck.test.IClassDocTester;
 import com.github.ojdcheck.test.ITestReport;
@@ -52,6 +53,7 @@ import com.sun.javadoc.RootDoc;
 public class OpenJavaDocCheck extends Doclet {
 
     private static String outputFile = null;
+    private static IReportGenerator generator = new XMLGenerator();
 
     private static List<IClassDocTester> docTests =
         new ArrayList<IClassDocTester>() {
@@ -64,7 +66,6 @@ public class OpenJavaDocCheck extends Doclet {
     public static boolean start(RootDoc root) {
         ClassDoc[] classes = root.classes();
         readOptions(root.options());
-        IReportGenerator generator = new XMLGenerator();
         try {
             OutputStream out = outputFile != null
                 ? new FileOutputStream(new File(outputFile))
@@ -93,6 +94,8 @@ public class OpenJavaDocCheck extends Doclet {
             String[] option = options[i];
             if ("-file".equals(option[0])) {
                 outputFile = option[1];
+            } else if ("-xhtml".equals(option[0])) {
+                generator = new XHTMLGenerator();
             } else if ("-tests".equals(option[0])) {
                 String[] tests = option[1].contains(",")
                     ? option[1].split(",")
@@ -127,6 +130,10 @@ public class OpenJavaDocCheck extends Doclet {
             return 2;
         } else if ("-tests".equals(option)) {
             return 2;
+        } else if ("-xhtml".equals(option)) {
+            return 1;
+        } else if ("-xml".equals(option)) {
+            return 1;
         }
         return 0;
     }
