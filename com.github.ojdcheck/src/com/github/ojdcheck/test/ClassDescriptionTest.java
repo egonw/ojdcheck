@@ -50,7 +50,15 @@ public class ClassDescriptionTest implements IClassDocTester {
     public List<ITestReport> test(ClassDoc classDoc) {
         List<ITestReport> reports = new ArrayList<ITestReport>();
         String foo = classDoc.commentText();
-        reports.add(new TestReport(this, classDoc.getClass(), foo, null, null));
+        if (foo == null || foo.length() == 0) {
+            reports.add(
+                new TestReport(
+                    this, classDoc.getClass(),
+                    "No class documentation given.",
+                    null, null
+                )
+            );
+        }
         return reports;
     }
 

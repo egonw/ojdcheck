@@ -27,55 +27,63 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.ojdcheck;
+package com.github.ojdcheck.test;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.ojdcheck.report.IReportGenerator;
-import com.github.ojdcheck.report.XMLGenerator;
-import com.github.ojdcheck.test.IClassDocTester;
-import com.github.ojdcheck.test.ITestReport;
-import com.github.ojdcheck.test.MissingDescriptionTest;
 import com.sun.javadoc.ClassDoc;
-import com.sun.javadoc.Doclet;
-import com.sun.javadoc.RootDoc;
+import com.sun.javadoc.MethodDoc;
 
 /**
- * Doclet that checks the correctness of JavaDoc.
+ * Test that verifies that classes and methods have JavaDoc.
  */
-public class OpenJavaDocCheck extends Doclet {
+public class MissingDescriptionTest implements IClassDocTester {
 
-    private static List<IClassDocTester> tests =
-        new ArrayList<IClassDocTester>() {
-            private static final long serialVersionUID = -4265911211271890560L;
-            {
-              add(new MissingDescriptionTest());
-            }
-        };
+    @Override
+    public String getDescription() {
+        return "Checks if the class or method is missing a JavaDoc " +
+        		"description";
+    }
 
-    public static boolean start(RootDoc root) {
-        ClassDoc[] classes = root.classes();
-        IReportGenerator generator = new XMLGenerator();
-        try {
-            generator.startReport(System.out);
-            for (int i = 0; i < classes.length; ++i) {
-                ClassDoc classDoc = classes[i];
-                for (IClassDocTester test : tests) {
-                    List<ITestReport> reports = test.test(classDoc);
-                    for (ITestReport report : reports) {
-                        generator.report(report);
-                    }
-                }
-            }
-            generator.endReport();
-        } catch (IOException exception) {
-            System.out.println(
-                "Error while writing output: " + exception.getMessage()
+    @Override
+    public String getName() {
+        return "Missing JavaDoc Description";
+    }
+
+    @Override
+    public List<ITestReport> test(ClassDoc classDoc) {
+        List<ITestReport> reports = new ArrayList<ITestReport>();
+        String classJavaDoc = classDoc.commentText();
+        if (classJavaDoc == null || classJavaDoc.length() == 0) {
+            reports.add(
+                new TestReport(
+                    this, classDoc.getClass(),
+                    "No class documentation given.",
+                    null, null
+                )
             );
         }
-        return true;
+        MethodDoc[] methods = classDoc.methods();
+        for (MethodDoc method : methods) {
+            String methodDoc = method.commentText();
+            if (methodDoc == null || methodDoc.length() == 0) {
+                reports.add(
+                    new TestReport(
+                        this, methodDoc.getClass(),
+                        "No documentation given for the method: " +
+                        method.name(),
+                        null, null
+                    )
+                );
+            }
+        }
+        return reports;
+    }
+
+    @Override
+    public Priority getPriority() {
+        return Priority.ERROR;
     }
 
 }
