@@ -1,4 +1,4 @@
-# Open JavaDoc Check
+Open JavaDoc Check
 ------------------
 
 Project where I plan to write an Open Source DocCheck alternative.
@@ -28,14 +28,14 @@ Howto
 1. Open the com.github.ojdcheck project in Eclipse and build.
 2. cd com.github.ojdcheck
 3. javadoc -doclet com.github.ojdcheck.OpenJavaDocCheck \
-           -docletpath bin -sourcepath src \
-           com.github.ojdcheck
+   -docletpath bin -sourcepath src \
+   com.github.ojdcheck
 
 The Doclet has two options, one to set the output file, one to give a comma-separated list
 of custom tests (implementing ICheckDocTest). For example:
 
-javadoc -file report.xml
-        -tests com.github.ojdcheck.test.FooMethodTest
-        -doclet com.github.ojdcheck.OpenJavaDocCheck \
-        -docletpath bin -sourcepath src \
-        com.github.ojdcheck
+  javadoc -file report.xml \
+    -tests com.github.ojdcheck.test.FooMethodTest \
+    -doclet com.github.ojdcheck.OpenJavaDocCheck \
+    -docletpath bin -sourcepath src \
+    com.github.ojdcheck
