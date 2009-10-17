@@ -27,57 +27,58 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.ojdcheck;
+package com.github.ojdcheck.report;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 
-import com.github.ojdcheck.report.IReportGenerator;
-import com.github.ojdcheck.report.XMLGenerator;
-import com.github.ojdcheck.test.ClassDescriptionTest;
-import com.github.ojdcheck.test.FooMethodTest;
-import com.github.ojdcheck.test.IClassDocTester;
 import com.github.ojdcheck.test.ITestReport;
-import com.sun.javadoc.ClassDoc;
-import com.sun.javadoc.Doclet;
-import com.sun.javadoc.RootDoc;
 
 /**
- * Doclet that checks the correctness of JavaDoc.
+ * Implementation of {@link IReportGenerator} that serializes the
+ * reports into an XML format. This allows post-processing in
+ * arbitrary other formats with XSLT stylesheets.
  */
-public class OpenJavaDocCheck extends Doclet {
+public class XMLGenerator implements IReportGenerator {
 
-    private static List<IClassDocTester> tests =
-        new ArrayList<IClassDocTester>() {
-            private static final long serialVersionUID = -4265911211271890560L;
-            {
-              add(new FooMethodTest());
-              add(new ClassDescriptionTest());
-            }
-        };
+    private final static String NEWLINE = System.getProperty("line.separator");
+    
+    private BufferedWriter writer;
 
-    public static boolean start(RootDoc root) {
-        ClassDoc[] classes = root.classes();
-        IReportGenerator generator = new XMLGenerator();
-        try {
-            generator.startReport(System.out);
-            for (int i = 0; i < classes.length; ++i) {
-                ClassDoc classDoc = classes[i];
-                for (IClassDocTester test : tests) {
-                    List<ITestReport> reports = test.test(classDoc);
-                    for (ITestReport report : reports) {
-                        generator.report(report);
-                    }
-                }
-            }
-            generator.endReport();
-        } catch (IOException exception) {
-            System.out.println(
-                "Error while writing output: " + exception.getMessage()
-            );
-        }
-        return true;
+    /**
+     * Starts the creation of a report.
+     */
+    public void startReport(OutputStream output) throws IOException {
+        // set up a BufferedWriter
+        writer = new BufferedWriter(
+            new OutputStreamWriter(output)
+        );
+
+        writer.write("<report>" + NEWLINE);
     }
 
+    /**
+     * Ends the creation of a report.
+     */
+    public void endReport() throws IOException {
+        writer.write("</report>" + NEWLINE);
+        writer.flush();
+    }
+
+    /**
+     * Generates a report item for the given {@link ITestReport}.
+     */
+    public void report(ITestReport report) throws IOException {
+        writer.write(
+            "  <test class=\"" + report.getTestedClass().getName() + "\">" +
+            NEWLINE
+        );
+        writer.write(
+            "    <fail>" + report.getFailMessage() + "</fail>" + NEWLINE
+        );
+        writer.write("  </test>" + NEWLINE);
+        writer.flush();
+    }
 }

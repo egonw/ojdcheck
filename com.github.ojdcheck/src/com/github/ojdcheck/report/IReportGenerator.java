@@ -27,43 +27,33 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.ojdcheck.test;
+package com.github.ojdcheck.report;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
+import java.io.OutputStream;
 
-import com.sun.javadoc.ClassDoc;
-import com.sun.javadoc.ExecutableMemberDoc;
-import com.sun.javadoc.ParamTag;
+import com.github.ojdcheck.test.ITestReport;
 
-public class FooMethodTest implements IClassDocTester {
+/**
+ * Interface for implementations that create reports for the
+ * {@link ITestReport}s.
+ */
+public interface IReportGenerator {
 
-    @Override
-    public String getDescription() {
-        return "Bar";
-    }
+    /**
+     * Starts the creation of a report.
+     *
+     * @param output {@link OutputStream} where the report should be send to
+     */
+    public void startReport(OutputStream output) throws IOException;
 
-    @Override
-    public String getName() {
-        return "Foo";
-    }
+    /**
+     * Ends the creation of a report.
+     */
+    public void endReport() throws IOException;
 
-    @Override
-    public List<ITestReport> test(ClassDoc classDoc) {
-        List<ITestReport> reports = new ArrayList<ITestReport>();
-        ExecutableMemberDoc[] mems = classDoc.methods();
-        for (int i = 0; i < mems.length; ++i) {
-            ParamTag[] params = mems[i].paramTags();
-            String methodName = mems[i].qualifiedName();
-            for (int j = 0; j < params.length; ++j) {
-                reports.add(new TestReport(this, classDoc.getClass(),
-                    "Method " + methodName + " has a parameter " +
-                    params[j].parameterName(),
-                    null, null
-                ));
-            }
-        }
-        return reports;
-    }
-
+    /**
+     * Generates a report item for the given {@link ITestReport}.
+     */
+    public void report(ITestReport report) throws IOException;
 }
