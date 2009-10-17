@@ -72,7 +72,7 @@ public class XMLGenerator implements IReportGenerator {
      */
     public void report(ITestReport report) throws IOException {
         writer.write(
-            "  <test class=\"" + report.getTestedClass().getName() + "\">" +
+            "  <test class=\"" + report.getTestedClass().typeName() + "\">" +
             NEWLINE
         );
         writer.write(

@@ -30,6 +30,7 @@
 package com.github.ojdcheck.test;
 
 import com.github.ojdcheck.test.IClassDocTester.Priority;
+import com.sun.javadoc.Type;
 
 /**
  * Interface for a report of a failing {@link IClassDocTester} test.
@@ -37,11 +38,11 @@ import com.github.ojdcheck.test.IClassDocTester.Priority;
 public interface ITestReport {
 
     /**
-     * Returns the {@link Class} for which the test failed.
+     * Returns the {@link Type} for which the test failed.
      *
-     * @return the {@link Class} with the failing test 
+     * @return the {@link Type} with the failing test 
      */
-    public Class<?> getTestedClass();
+    public Type getTestedClass();
 
     /**
      * Returns the line at which the fail starts.

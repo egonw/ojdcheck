@@ -30,6 +30,7 @@
 package com.github.ojdcheck.test;
 
 import com.github.ojdcheck.test.IClassDocTester.Priority;
+import com.sun.javadoc.Type;
 
 public class TestReport implements ITestReport {
 
@@ -37,9 +38,9 @@ public class TestReport implements ITestReport {
     private Integer endLine = null;
     private IClassDocTester test = null;
     private String failMessage = "";
-    private Class<?> testedClass;
+    private Type testedClass;
 
-    public TestReport(IClassDocTester test, Class<?> testedClass,
+    public TestReport(IClassDocTester test, Type testedClass,
                       String failMessage, Integer startLine, Integer endLine){
         this.test = test;
         this.testedClass = testedClass;
@@ -69,7 +70,7 @@ public class TestReport implements ITestReport {
     }
 
     @Override
-    public Class<?> getTestedClass() {
+    public Type getTestedClass() {
         return this.testedClass;
     }
 

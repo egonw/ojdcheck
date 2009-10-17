@@ -56,7 +56,7 @@ public class FooMethodTest implements IClassDocTester {
             ParamTag[] params = mems[i].paramTags();
             String methodName = mems[i].qualifiedName();
             for (int j = 0; j < params.length; ++j) {
-                reports.add(new TestReport(this, classDoc.getClass(),
+                reports.add(new TestReport(this, classDoc,
                     "Method " + methodName + " has a parameter " +
                     params[j].parameterName(),
                     null, null

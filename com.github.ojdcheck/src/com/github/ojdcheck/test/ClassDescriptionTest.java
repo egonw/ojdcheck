@@ -53,7 +53,7 @@ public class ClassDescriptionTest implements IClassDocTester {
         if (foo == null || foo.length() == 0) {
             reports.add(
                 new TestReport(
-                    this, classDoc.getClass(),
+                    this, classDoc,
                     "No class documentation given.",
                     null, null
                 )

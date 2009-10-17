@@ -58,7 +58,7 @@ public class MissingDescriptionTest implements IClassDocTester {
         if (classJavaDoc == null || classJavaDoc.length() == 0) {
             reports.add(
                 new TestReport(
-                    this, classDoc.getClass(),
+                    this, classDoc,
                     "No class documentation given.",
                     null, null
                 )
@@ -70,7 +70,7 @@ public class MissingDescriptionTest implements IClassDocTester {
             if (methodDoc == null || methodDoc.length() == 0) {
                 reports.add(
                     new TestReport(
-                        this, methodDoc.getClass(),
+                        this, classDoc,
                         "No documentation given for the method: " +
                         method.name(),
                         null, null
