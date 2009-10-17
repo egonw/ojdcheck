@@ -29,7 +29,10 @@
  */
 package com.github.ojdcheck;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +42,7 @@ import com.github.ojdcheck.test.IClassDocTester;
 import com.github.ojdcheck.test.ITestReport;
 import com.github.ojdcheck.test.MissingDescriptionTest;
 import com.sun.javadoc.ClassDoc;
+import com.sun.javadoc.DocErrorReporter;
 import com.sun.javadoc.Doclet;
 import com.sun.javadoc.RootDoc;
 
@@ -46,6 +50,8 @@ import com.sun.javadoc.RootDoc;
  * Doclet that checks the correctness of JavaDoc.
  */
 public class OpenJavaDocCheck extends Doclet {
+
+    private static String outputFile = null;
 
     private static List<IClassDocTester> tests =
         new ArrayList<IClassDocTester>() {
@@ -57,9 +63,13 @@ public class OpenJavaDocCheck extends Doclet {
 
     public static boolean start(RootDoc root) {
         ClassDoc[] classes = root.classes();
+        readOptions(root.options());
         IReportGenerator generator = new XMLGenerator();
         try {
-            generator.startReport(System.out);
+            OutputStream out = outputFile != null
+                ? new FileOutputStream(new File(outputFile))
+                : System.out;
+            generator.startReport(out);
             for (int i = 0; i < classes.length; ++i) {
                 ClassDoc classDoc = classes[i];
                 for (IClassDocTester test : tests) {
@@ -74,6 +84,31 @@ public class OpenJavaDocCheck extends Doclet {
             System.out.println(
                 "Error while writing output: " + exception.getMessage()
             );
+        }
+        return true;
+    }
+
+    private static void readOptions(String[][] options) {
+        for (int i = 0; i < options.length; i++) {
+            String[] option = options[i];
+            if ("-file".equals(option[0])) {
+                outputFile = option[1];
+            }
+        }
+    }
+
+    public static int optionLength(String option) {
+        if ("-file".equals(option)) {
+            return 2;
+        }
+        return 0;
+    }
+    
+    public static boolean validOptions(String options[][], 
+            DocErrorReporter reporter) {
+        for (int i = 0; i < options.length; i++) {
+            String[] option = options[i];
+            System.out.println("Tag found: " + option[0]);
         }
         return true;
     }
