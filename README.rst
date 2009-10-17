@@ -3,6 +3,8 @@ Open JavaDoc Check
 
 Project where I plan to write an Open Source DocCheck alternative.
 
+.. image:: ojdcheckXHTML.png
+
 Why?
 ----
 
