@@ -53,7 +53,7 @@ public class OpenJavaDocCheck extends Doclet {
 
     private static String outputFile = null;
 
-    private static List<IClassDocTester> tests =
+    private static List<IClassDocTester> docTests =
         new ArrayList<IClassDocTester>() {
             private static final long serialVersionUID = -4265911211271890560L;
             {
@@ -72,7 +72,7 @@ public class OpenJavaDocCheck extends Doclet {
             generator.startReport(out);
             for (int i = 0; i < classes.length; ++i) {
                 ClassDoc classDoc = classes[i];
-                for (IClassDocTester test : tests) {
+                for (IClassDocTester test : docTests) {
                     List<ITestReport> reports = test.test(classDoc);
                     for (ITestReport report : reports) {
                         generator.report(report);
@@ -93,12 +93,39 @@ public class OpenJavaDocCheck extends Doclet {
             String[] option = options[i];
             if ("-file".equals(option[0])) {
                 outputFile = option[1];
+            } else if ("-tests".equals(option[0])) {
+                String[] tests = option[1].contains(",")
+                    ? option[1].split(",")
+                    : new String[]{option[1]};
+                for (String test : tests) {
+                    try {
+                        Class<?> clazz = docTests.getClass().getClassLoader().
+                            loadClass(test);
+                        if (IClassDocTester.class.isAssignableFrom(clazz)) {
+                            Object clazzInstance = clazz.newInstance();
+                            docTests.add((IClassDocTester)clazzInstance);
+                        } else {
+                            System.out.println(
+                                "Class does not implement IClassDocTester: " +
+                                test
+                            );
+                        }
+                    } catch (ClassNotFoundException e) {
+                        System.out.println("Could not load class: " + test);
+                    } catch (InstantiationException e) {
+                        System.out.println("Could not instantiate class: " + test);
+                    } catch (IllegalAccessException e) {
+                        System.out.println("Could not access class: " + test);
+                    }
+                }
             }
         }
     }
 
     public static int optionLength(String option) {
         if ("-file".equals(option)) {
+            return 2;
+        } else if ("-tests".equals(option)) {
             return 2;
         }
         return 0;
