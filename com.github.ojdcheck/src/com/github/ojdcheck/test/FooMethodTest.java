@@ -66,4 +66,9 @@ public class FooMethodTest implements IClassDocTester {
         return reports;
     }
 
+    @Override
+    public Priority getPriority() {
+        return Priority.WARNING;
+    }
+
 }

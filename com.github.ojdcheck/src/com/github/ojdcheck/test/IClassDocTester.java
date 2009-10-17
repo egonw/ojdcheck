@@ -38,6 +38,11 @@ import com.sun.javadoc.ClassDoc;
  */
 public interface IClassDocTester {
 
+    public enum Priority {
+        WARNING,
+        ERROR
+    }
+
     /**
      * Tests the given {@link ClassDoc} for a certain JavaDoc error.
      *
@@ -60,4 +65,10 @@ public interface IClassDocTester {
      */
     public String getDescription();
 
+    /**
+     * Returns the priority it the fail.
+     *
+     * @return a Priority of the fail. 
+     */
+    public Priority getPriority();
 }

@@ -54,4 +54,9 @@ public class ClassDescriptionTest implements IClassDocTester {
         return reports;
     }
 
+    @Override
+    public Priority getPriority() {
+        return Priority.ERROR;
+    }
+
 }

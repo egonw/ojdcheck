@@ -29,6 +29,8 @@
  */
 package com.github.ojdcheck.test;
 
+import com.github.ojdcheck.test.IClassDocTester.Priority;
+
 public class TestReport implements ITestReport {
 
     private Integer startLine = null;
@@ -69,6 +71,11 @@ public class TestReport implements ITestReport {
     @Override
     public Class<?> getTestedClass() {
         return this.testedClass;
+    }
+
+    @Override
+    public Priority getPriority() {
+        return test.getPriority();
     }
 
 }

@@ -29,6 +29,8 @@
  */
 package com.github.ojdcheck.test;
 
+import com.github.ojdcheck.test.IClassDocTester.Priority;
+
 /**
  * Interface for a report of a failing {@link IClassDocTester} test.
  */
@@ -75,5 +77,12 @@ public interface ITestReport {
      * @return a {@link String} describing why reason of fail. 
      */
     public String getFailMessage();
+
+    /**
+     * Returns the priority it the fail.
+     *
+     * @return a Priority of the fail. 
+     */
+    public Priority getPriority();
 
 }
