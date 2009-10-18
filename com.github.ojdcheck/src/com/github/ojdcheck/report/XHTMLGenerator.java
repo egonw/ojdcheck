@@ -102,7 +102,7 @@ public class XHTMLGenerator implements IReportGenerator {
              report.getPriority() == Priority.ERROR
                   ? "red"
                   : "orange") +
-            "\">" + report.getPriority().ordinal() + "</td>" + NEWLINE +
+            "\">" + (report.getPriority().ordinal() + 1) + "</td>" + NEWLINE +
             "    <td>" + report.getTestedClass().typeName() + "</td>" + NEWLINE+
             "    <td>" + report.getStartLine() + "</td>" + NEWLINE +
             "    <td>" + report.getFailMessage() + "</td>" + NEWLINE
