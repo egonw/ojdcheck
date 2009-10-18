@@ -111,6 +111,7 @@ public class XHTMLGenerator implements IReportGenerator {
 
     private String getPriorityColor(Priority priority) {
         if (priority == Priority.ERROR) return "red";
+        if (priority == Priority.MINOR_ERROR) return "orange";
         if (priority == Priority.WARNING) return "green";
         return "white";
     }

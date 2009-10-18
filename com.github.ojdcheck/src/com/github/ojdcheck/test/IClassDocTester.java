@@ -40,6 +40,7 @@ public interface IClassDocTester {
 
     public enum Priority {
         ERROR,
+        MINOR_ERROR,
         WARNING
     }
 
