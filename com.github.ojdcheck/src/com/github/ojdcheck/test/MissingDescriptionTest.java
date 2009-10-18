@@ -56,28 +56,32 @@ public class MissingDescriptionTest implements IClassDocTester {
         List<ITestReport> reports = new ArrayList<ITestReport>();
         String classJavaDoc = classDoc.commentText();
         if (classJavaDoc == null || classJavaDoc.length() == 0) {
-            reports.add(
-                new TestReport(
-                    this, classDoc,
-                    "No class documentation given.",
-                    classDoc.position().line(),
-                    null
-                )
-            );
+            if (classDoc.tags("inheritDoc").length == 0) {
+                reports.add(
+                    new TestReport(
+                        this, classDoc,
+                        "No class documentation given.",
+                        classDoc.position().line(),
+                        null
+                    )
+                );
+            }
         }
         MethodDoc[] methods = classDoc.methods();
         for (MethodDoc method : methods) {
             String methodDoc = method.commentText();
             if (methodDoc == null || methodDoc.length() == 0) {
-                reports.add(
-                    new TestReport(
-                        this, classDoc,
-                        "No documentation given for the method: " +
-                        method.name(),
-                        method.position().line(),
-                        null
-                    )
-                );
+                if (method.tags("inheritDoc").length == 0) {
+                    reports.add(
+                        new TestReport(
+                            this, classDoc,
+                            "No documentation given for the method: " +
+                            method.name(),
+                            method.position().line(),
+                            null
+                        )
+                    );
+                }
             }
         }
         return reports;
