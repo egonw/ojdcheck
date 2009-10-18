@@ -101,8 +101,8 @@ public class XHTMLGenerator implements IReportGenerator {
         writer.write("    <td style=\"background-color: " +
              getPriorityColor(report.getPriority()) +
             "\">" + (report.getPriority().ordinal() + 1) + "</td>" + NEWLINE +
-            "    <td>" + report.getTestedClass().typeName() + "</td>" + NEWLINE+
-            "    <td>" + report.getStartLine() + "</td>" + NEWLINE +
+            "    <td>" + report.getTestedClass().qualifiedTypeName() + "</td>" +
+            NEWLINE + "    <td>" + report.getStartLine() + "</td>" + NEWLINE +
             "    <td>" + report.getFailMessage() + "</td>" + NEWLINE
         );
         writer.write("  </tr>" + NEWLINE);
