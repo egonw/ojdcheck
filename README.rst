@@ -29,15 +29,21 @@ Howto
 
 1. Open the com.github.ojdcheck project in Eclipse and build.
 2. cd com.github.ojdcheck
-3. javadoc -doclet com.github.ojdcheck.OpenJavaDocCheck \
-   -docletpath bin -sourcepath src \
-   com.github.ojdcheck
 
-The Doclet has two options, one to set the output file, one to give a comma-separated list
-of custom tests (implementing ICheckDocTest). For example:
+In that directory you can give the code a test run:
+
+  javadoc -doclet com.github.ojdcheck.OpenJavaDocCheck \
+    -docletpath bin -sourcepath src \
+    com.github.ojdcheck
+
+The Doclet has three options. One is used to set the location of the output file,
+a second to give a comma-separated list of custom tests (implementing
+ICheckDocTest). For example:
 
   javadoc -file report.xml \
     -tests com.github.ojdcheck.test.FooMethodTest \
     -doclet com.github.ojdcheck.OpenJavaDocCheck \
     -docletpath bin -sourcepath src \
     com.github.ojdcheck
+
+The third option is to control the output type, and you can use -xml and -xhtml.
