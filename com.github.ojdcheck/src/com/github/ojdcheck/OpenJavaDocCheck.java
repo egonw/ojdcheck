@@ -39,9 +39,11 @@ import java.util.List;
 import com.github.ojdcheck.report.IReportGenerator;
 import com.github.ojdcheck.report.XHTMLGenerator;
 import com.github.ojdcheck.report.XMLGenerator;
+import com.github.ojdcheck.test.ExceptionTemplateTest;
 import com.github.ojdcheck.test.IClassDocTester;
 import com.github.ojdcheck.test.ITestReport;
 import com.github.ojdcheck.test.MissingDescriptionTest;
+import com.github.ojdcheck.test.ParameterTemplateTest;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.DocErrorReporter;
 import com.sun.javadoc.Doclet;
@@ -61,6 +63,8 @@ public class OpenJavaDocCheck extends Doclet {
 
     private static void addStandardTests() {
         docTests.add(new MissingDescriptionTest());
+        docTests.add(new ExceptionTemplateTest());
+        docTests.add(new ParameterTemplateTest());
     }
 
     public static boolean start(RootDoc root) {
