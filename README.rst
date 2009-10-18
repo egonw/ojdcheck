@@ -24,6 +24,9 @@ Ubuntu gjdoc package, license GPL v2. See:
 
 http://changelogs.ubuntu.com/changelogs/pool/main/g/gjdoc/gjdoc_0.7.9-1/gjdoc.copyright
 
+This library does not depend on gjdoc, but on the JavaDoc APIs instead upon compile
+time, as well as runtime.
+
 Howto
 -----
 
