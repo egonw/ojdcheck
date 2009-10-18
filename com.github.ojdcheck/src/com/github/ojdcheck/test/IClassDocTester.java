@@ -39,8 +39,8 @@ import com.sun.javadoc.ClassDoc;
 public interface IClassDocTester {
 
     public enum Priority {
-        WARNING,
-        ERROR
+        ERROR,
+        WARNING
     }
 
     /**
