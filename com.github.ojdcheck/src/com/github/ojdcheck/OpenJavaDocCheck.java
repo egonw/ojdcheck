@@ -105,7 +105,7 @@ public class OpenJavaDocCheck extends Doclet {
                     : new String[]{option[1]};
                 for (String test : tests) {
                     try {
-                        Class<?> clazz = docTests.getClass().getClassLoader().
+                        Class<?> clazz = OpenJavaDocCheck.class.getClassLoader().
                             loadClass(test);
                         if (IClassDocTester.class.isAssignableFrom(clazz)) {
                             Object clazzInstance = clazz.newInstance();
