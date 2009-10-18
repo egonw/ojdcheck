@@ -75,8 +75,8 @@ public class MissingDescriptionTest implements IClassDocTester {
                     reports.add(
                         new TestReport(
                             this, classDoc,
-                            "No documentation given for the method: " +
-                            method.name(),
+                            "No documentation given for the method " +
+                            method.name() + "().",
                             method.position().line(),
                             null
                         )
