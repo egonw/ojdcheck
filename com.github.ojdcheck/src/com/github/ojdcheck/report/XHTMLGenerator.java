@@ -98,10 +98,8 @@ public class XHTMLGenerator implements IReportGenerator {
                   ? "style=\"background-color: silver\""
                   : "") +
             ">" + NEWLINE);
-        writer.write("    <td style=\"background-color: " + (
-             report.getPriority() == Priority.ERROR
-                  ? "red"
-                  : "orange") +
+        writer.write("    <td style=\"background-color: " +
+             getPriorityColor(report.getPriority()) +
             "\">" + (report.getPriority().ordinal() + 1) + "</td>" + NEWLINE +
             "    <td>" + report.getTestedClass().typeName() + "</td>" + NEWLINE+
             "    <td>" + report.getStartLine() + "</td>" + NEWLINE +
@@ -109,5 +107,11 @@ public class XHTMLGenerator implements IReportGenerator {
         );
         writer.write("  </tr>" + NEWLINE);
         writer.flush();
+    }
+
+    private String getPriorityColor(Priority priority) {
+        if (priority == Priority.ERROR) return "red";
+        if (priority == Priority.WARNING) return "green";
+        return "white";
     }
 }
