@@ -33,6 +33,8 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.github.ojdcheck.test.ITestReport;
 import com.github.ojdcheck.test.IClassDocTester.Priority;
@@ -49,6 +51,8 @@ public class XHTMLGenerator implements IReportGenerator {
 
     private int lineCounter = 0;
     
+    private Map<Priority,Integer> counters;
+    
     /**
      * Starts the creation of a report.
      */
@@ -58,6 +62,8 @@ public class XHTMLGenerator implements IReportGenerator {
             new OutputStreamWriter(output)
         );
         lineCounter = 0;
+        counters = new HashMap<Priority, Integer>();
+        for (Priority prior : Priority.values()) counters.put(prior, 0);
 
         writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + NEWLINE);
         writer.write(
@@ -83,7 +89,13 @@ public class XHTMLGenerator implements IReportGenerator {
      * Ends the creation of a report.
      */
     public void endReport() throws IOException {
-        writer.write("</table></html>" + NEWLINE); 
+        writer.write("</table>" + NEWLINE);
+        writer.write("<p>Summary: " + NEWLINE);
+        for (Priority prior : counters.keySet()) {
+            writer.write(prior + ": <span class=\"" + prior + "\">" +
+                counters.get(prior) + "</span>" + NEWLINE);
+        }
+        writer.write("</p>" + NEWLINE);
         writer.write("</html>" + NEWLINE);
         writer.flush();
     }
@@ -93,14 +105,17 @@ public class XHTMLGenerator implements IReportGenerator {
      */
     public void report(ITestReport report) throws IOException {
         lineCounter++;
+        
+        Priority prior = report.getPriority();
+        counters.put(prior, counters.get(prior) + 1);
         writer.write("  <tr " + (
             lineCounter % 2 == 0
                   ? "style=\"background-color: silver\""
                   : "") +
             ">" + NEWLINE);
         writer.write("    <td style=\"background-color: " +
-             getPriorityColor(report.getPriority()) +
-            "\">" + (report.getPriority().ordinal() + 1) + "</td>" + NEWLINE +
+             getPriorityColor(prior) +
+            "\">" + (prior.ordinal() + 1) + "</td>" + NEWLINE +
             "    <td>" + report.getTestedClass().qualifiedTypeName() + "</td>" +
             NEWLINE + "    <td>" + report.getStartLine() + "</td>" + NEWLINE +
             "    <td>" + report.getFailMessage() + "</td>" + NEWLINE
