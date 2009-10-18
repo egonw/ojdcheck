@@ -52,20 +52,21 @@ import com.sun.javadoc.RootDoc;
  */
 public class OpenJavaDocCheck extends Doclet {
 
+    private static boolean customOnly = false;
     private static String outputFile = null;
     private static IReportGenerator generator = new XMLGenerator();
 
     private static List<IClassDocTester> docTests =
-        new ArrayList<IClassDocTester>() {
-            private static final long serialVersionUID = -4265911211271890560L;
-            {
-              add(new MissingDescriptionTest());
-            }
-        };
+        new ArrayList<IClassDocTester>();
+
+    private static void addStandardTests() {
+        docTests.add(new MissingDescriptionTest());
+    }
 
     public static boolean start(RootDoc root) {
         ClassDoc[] classes = root.classes();
         readOptions(root.options());
+        if (!customOnly) addStandardTests();
         try {
             OutputStream out = outputFile != null
                 ? new FileOutputStream(new File(outputFile))
@@ -94,6 +95,8 @@ public class OpenJavaDocCheck extends Doclet {
             String[] option = options[i];
             if ("-file".equals(option[0])) {
                 outputFile = option[1];
+            } else if ("-customonly".equals(option[0])) {
+                customOnly = true;
             } else if ("-xhtml".equals(option[0])) {
                 generator = new XHTMLGenerator();
             } else if ("-tests".equals(option[0])) {
@@ -133,6 +136,8 @@ public class OpenJavaDocCheck extends Doclet {
         } else if ("-xhtml".equals(option)) {
             return 1;
         } else if ("-xml".equals(option)) {
+            return 1;
+        } else if ("-customonly".equals(option)) {
             return 1;
         }
         return 0;
