@@ -44,7 +44,9 @@ import com.github.ojdcheck.test.IClassDocTester;
 import com.github.ojdcheck.test.ITestReport;
 import com.github.ojdcheck.test.MissingDescriptionTest;
 import com.github.ojdcheck.test.MissingPeriodInFirstSentenceTest;
+import com.github.ojdcheck.test.MultipleVersionTagsTest;
 import com.github.ojdcheck.test.ParameterTemplateTest;
+import com.github.ojdcheck.test.ReturnsTypoTest;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.DocErrorReporter;
 import com.sun.javadoc.Doclet;
@@ -67,6 +69,8 @@ public class OpenJavaDocCheck extends Doclet {
         docTests.add(new ExceptionTemplateTest());
         docTests.add(new ParameterTemplateTest());
         docTests.add(new MissingPeriodInFirstSentenceTest());
+        docTests.add(new ReturnsTypoTest());
+        docTests.add(new MultipleVersionTagsTest());
     }
 
     public static boolean start(RootDoc root) {
