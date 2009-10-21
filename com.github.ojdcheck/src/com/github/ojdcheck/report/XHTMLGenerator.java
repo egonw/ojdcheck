@@ -108,14 +108,15 @@ public class XHTMLGenerator implements IReportGenerator {
         
         Priority prior = report.getPriority();
         counters.put(prior, counters.get(prior) + 1);
-        writer.write("  <tr " + (
+        writer.write("  <tr class=\"violation\"" + (
             lineCounter % 2 == 0
-                  ? "style=\"background-color: silver\""
+                  ? " style=\"background-color: silver\""
                   : "") +
             ">" + NEWLINE);
         writer.write("    <td style=\"background-color: " +
              getPriorityColor(prior) +
-            "\">" + (prior.ordinal() + 1) + "</td>" + NEWLINE +
+            "\" class=\"" + prior.name().toLowerCase() + "\">" +
+            (prior.ordinal() + 1) + "</td>" + NEWLINE +
             "    <td>" + report.getTestedClass().qualifiedTypeName() + "</td>" +
             NEWLINE + "    <td>" + report.getStartLine() + "</td>" + NEWLINE +
             "    <td>" + report.getFailMessage() + "</td>" + NEWLINE
