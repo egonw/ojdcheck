@@ -73,6 +73,14 @@ public class OpenJavaDocCheck extends Doclet {
         docTests.add(new MultipleVersionTagsTest());
     }
 
+    /**
+     * Starts processing of a Java source file with JavaDoc.
+     * Method is called by the JavaDoc executable to allow this {@link Doclet}
+     * to process the information in the tree.
+     *
+     * @param root {@link RootDoc} representation of the Java file to process
+     * @return true if processing succeeded
+     */
     public static boolean start(RootDoc root) {
         ClassDoc[] classes = root.classes();
         readOptions(root.options());
@@ -138,6 +146,15 @@ public class OpenJavaDocCheck extends Doclet {
         }
     }
 
+    /**
+     * Returns the length of each {@link Doclet} option. The length includes
+     * the option itself: if an option takes a second value, the length is
+     * 2; the minimum length for a registered option is 1. It returns 0 for
+     * unsupported options.
+     *
+     * @param option the option for which the length is returned
+     * @return the length of the option, or 0 if the option is not supported
+     */
     public static int optionLength(String option) {
         if ("-file".equals(option)) {
             return 2;
@@ -153,6 +170,15 @@ public class OpenJavaDocCheck extends Doclet {
         return 0;
     }
     
+    /**
+     * Validates the passed options. Each row in the matrix is one option, and
+     * the first column is the option, while the other columns contain option
+     * parameters.
+     *
+     * @param options options to validate
+     * @param reporter {@link DocErrorReporter} where errors are reported 
+     * @return false if errors were found
+     */
     public static boolean validOptions(String options[][], 
             DocErrorReporter reporter) {
         for (int i = 0; i < options.length; i++) {
