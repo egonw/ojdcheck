@@ -183,7 +183,7 @@ public class OpenJavaDocCheck extends Doclet {
             DocErrorReporter reporter) {
         for (int i = 0; i < options.length; i++) {
             String[] option = options[i];
-            System.out.println("Tag found: " + option[0]);
+//            System.out.println("Tag found: " + option[0]);
         }
         return true;
     }
