@@ -51,19 +51,19 @@ public class MissingPeriodInFirstSentenceTest implements IClassDocTester {
     public List<ITestReport> test(ClassDoc classDoc) {
         List<ITestReport> reports = new ArrayList<ITestReport>();
         Tag[] tags = classDoc.firstSentenceTags();
+        StringBuilder concat = new StringBuilder();
         for (Tag tag : tags) {
-            if (tag.name().equals("Text")) {                
-                if (!tag.text().trim().endsWith(".")) {
-                    reports.add(
-                        new TestReport(
-                            this, classDoc,
-                            "There is no period to end the first sentence: '" +
-                            tag.text().trim() + "'",
-                            classDoc.position().line(), null
-                        )
-                    );
-                }
-            }
+            concat.append(tag.text());
+        }
+        if (!concat.toString().endsWith(".")) {
+            reports.add(
+                new TestReport(
+                    this, classDoc,
+                    "There is no period to end the first sentence: '" +
+                    concat.toString() + "'",
+                    classDoc.position().line(), null
+                )
+            );
         }
         return reports;
     }
