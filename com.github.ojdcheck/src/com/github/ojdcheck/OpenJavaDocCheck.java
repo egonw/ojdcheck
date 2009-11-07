@@ -44,6 +44,7 @@ import com.github.ojdcheck.test.ITestReport;
 import com.github.ojdcheck.test.content.MissingExceptionDescriptionTest;
 import com.github.ojdcheck.test.content.MissingPeriodInFirstSentenceTest;
 import com.github.ojdcheck.test.missing.MissingDescriptionTest;
+import com.github.ojdcheck.test.missing.MissingParamTagTest;
 import com.github.ojdcheck.test.missing.MissingReturnTagTest;
 import com.github.ojdcheck.test.mistake.MultipleVersionTagsTest;
 import com.github.ojdcheck.test.mistake.ReturnsTypoTest;
@@ -72,6 +73,7 @@ public class OpenJavaDocCheck extends Doclet {
         docTests.add(new ParameterTemplateTest());
         docTests.add(new MissingExceptionDescriptionTest());
         docTests.add(new MissingReturnTagTest());
+        docTests.add(new MissingParamTagTest());
         docTests.add(new MissingPeriodInFirstSentenceTest());
         docTests.add(new ReturnsTypoTest());
         docTests.add(new MultipleVersionTagsTest());
