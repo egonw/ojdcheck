@@ -27,62 +27,47 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.ojdcheck.test;
+package com.github.ojdcheck.test.content;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.ojdcheck.test.IClassDocTester;
+import com.github.ojdcheck.test.ITestReport;
+import com.github.ojdcheck.test.TestReport;
+import com.github.ojdcheck.test.IClassDocTester.Priority;
 import com.sun.javadoc.ClassDoc;
-import com.sun.javadoc.MethodDoc;
+import com.sun.javadoc.Tag;
 
-/**
- * Test that verifies that classes and methods have JavaDoc.
- */
-public class MissingDescriptionTest implements IClassDocTester {
+public class MissingPeriodInFirstSentenceTest implements IClassDocTester {
 
     @Override
     public String getDescription() {
-        return "Checks if the class or method is missing a JavaDoc " +
-        		"description";
+        return "Tests if the first sentence ends with a period.";
     }
 
     @Override
     public String getName() {
-        return "Missing JavaDoc Description";
+        return "First Sentence Period";
     }
 
     @Override
     public List<ITestReport> test(ClassDoc classDoc) {
         List<ITestReport> reports = new ArrayList<ITestReport>();
-        String classJavaDoc = classDoc.commentText();
-        if (classJavaDoc == null || classJavaDoc.length() == 0) {
-            if (classDoc.tags("inheritDoc").length == 0) {
-                reports.add(
-                    new TestReport(
-                        this, classDoc,
-                        "No class documentation given.",
-                        classDoc.position().line(),
-                        null
-                    )
-                );
-            }
+        Tag[] tags = classDoc.firstSentenceTags();
+        StringBuilder concat = new StringBuilder();
+        for (Tag tag : tags) {
+            concat.append(tag.text());
         }
-        MethodDoc[] methods = classDoc.methods();
-        for (MethodDoc method : methods) {
-            String methodDoc = method.commentText();
-            if (methodDoc == null || methodDoc.length() == 0) {
-                if (method.tags("inheritDoc").length == 0) {
-                    reports.add(
-                        new TestReport(
-                            this, classDoc,
-                            "No documentation given for the method " +
-                            method.name() + "().",
-                            method.position().line(),
-                            null
-                        )
-                    );
-                }
-            }
+        if (!concat.toString().endsWith(".")) {
+            reports.add(
+                new TestReport(
+                    this, classDoc,
+                    "There is no period to end the first sentence: '" +
+                    concat.toString() + "'",
+                    classDoc.position().line(), null
+                )
+            );
         }
         return reports;
     }

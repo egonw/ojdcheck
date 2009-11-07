@@ -1,5 +1,4 @@
-/* Copyright (c) 2009  Rajarshi Guha <rajarshi.guha@gmail.com>
- *
+/* Copyright (c) 2009  Egon Willighagen <egonw@users.sf.net>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,46 +27,62 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.ojdcheck.test;
+package com.github.ojdcheck.test.missing;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.ojdcheck.test.IClassDocTester;
+import com.github.ojdcheck.test.ITestReport;
+import com.github.ojdcheck.test.TestReport;
+import com.github.ojdcheck.test.IClassDocTester.Priority;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.MethodDoc;
-import com.sun.javadoc.ThrowsTag;
 
 /**
- * Test that verifies that when an exception is thrown, a description of the
- * conditions is provided.
+ * Test that verifies that classes and methods have JavaDoc.
  */
-public class MissingExceptionDescriptionTest implements IClassDocTester {
+public class MissingDescriptionTest implements IClassDocTester {
 
     @Override
     public String getDescription() {
-        return "Checks whether a class that throws an" +
-                "exception, describes when the exception is thrown " +
-                "with @throws or @exception";
+        return "Checks if the class or method is missing a JavaDoc " +
+        		"description";
     }
 
     @Override
     public String getName() {
-        return "Missing Exception Description";
+        return "Missing JavaDoc Description";
     }
 
-    
     @Override
     public List<ITestReport> test(ClassDoc classDoc) {
         List<ITestReport> reports = new ArrayList<ITestReport>();
-        MethodDoc[] methodDocs = classDoc.methods();
-        for (MethodDoc mdoc : methodDocs) {
-            ThrowsTag[] ttags = mdoc.throwsTags();
-            for (ThrowsTag ttag : ttags) {
-                if (ttag.exceptionComment() == null) {
+        String classJavaDoc = classDoc.commentText();
+        if (classJavaDoc == null || classJavaDoc.length() == 0) {
+            if (classDoc.tags("inheritDoc").length == 0) {
+                reports.add(
+                    new TestReport(
+                        this, classDoc,
+                        "No class documentation given.",
+                        classDoc.position().line(),
+                        null
+                    )
+                );
+            }
+        }
+        MethodDoc[] methods = classDoc.methods();
+        for (MethodDoc method : methods) {
+            String methodDoc = method.commentText();
+            if (methodDoc == null || methodDoc.length() == 0) {
+                if (method.tags("inheritDoc").length == 0) {
                     reports.add(
-                        new TestReport(this, classDoc, 
-                            "Exception was not described",
-                            mdoc.position().line(), null
+                        new TestReport(
+                            this, classDoc,
+                            "No documentation given for the method " +
+                            method.name() + "().",
+                            method.position().line(),
+                            null
                         )
                     );
                 }

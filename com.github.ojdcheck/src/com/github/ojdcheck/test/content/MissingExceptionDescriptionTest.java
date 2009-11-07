@@ -1,4 +1,5 @@
-/* Copyright (c) 2009  Egon Willighagen <egonw@users.sf.net>
+/* Copyright (c) 2009  Rajarshi Guha <rajarshi.guha@gmail.com>
+ *
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,43 +28,54 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.ojdcheck.test;
+package com.github.ojdcheck.test.content;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.ojdcheck.test.IClassDocTester;
+import com.github.ojdcheck.test.ITestReport;
+import com.github.ojdcheck.test.TestReport;
+import com.github.ojdcheck.test.IClassDocTester.Priority;
 import com.sun.javadoc.ClassDoc;
-import com.sun.javadoc.Tag;
+import com.sun.javadoc.MethodDoc;
+import com.sun.javadoc.ThrowsTag;
 
-public class MissingPeriodInFirstSentenceTest implements IClassDocTester {
+/**
+ * Test that verifies that when an exception is thrown, a description of the
+ * conditions is provided.
+ */
+public class MissingExceptionDescriptionTest implements IClassDocTester {
 
     @Override
     public String getDescription() {
-        return "Tests if the first sentence ends with a period.";
+        return "Checks whether a class that throws an" +
+                "exception, describes when the exception is thrown " +
+                "with @throws or @exception";
     }
 
     @Override
     public String getName() {
-        return "First Sentence Period";
+        return "Missing Exception Description";
     }
 
+    
     @Override
     public List<ITestReport> test(ClassDoc classDoc) {
         List<ITestReport> reports = new ArrayList<ITestReport>();
-        Tag[] tags = classDoc.firstSentenceTags();
-        StringBuilder concat = new StringBuilder();
-        for (Tag tag : tags) {
-            concat.append(tag.text());
-        }
-        if (!concat.toString().endsWith(".")) {
-            reports.add(
-                new TestReport(
-                    this, classDoc,
-                    "There is no period to end the first sentence: '" +
-                    concat.toString() + "'",
-                    classDoc.position().line(), null
-                )
-            );
+        MethodDoc[] methodDocs = classDoc.methods();
+        for (MethodDoc mdoc : methodDocs) {
+            ThrowsTag[] ttags = mdoc.throwsTags();
+            for (ThrowsTag ttag : ttags) {
+                if (ttag.exceptionComment() == null) {
+                    reports.add(
+                        new TestReport(this, classDoc, 
+                            "Exception was not described",
+                            mdoc.position().line(), null
+                        )
+                    );
+                }
+            }
         }
         return reports;
     }

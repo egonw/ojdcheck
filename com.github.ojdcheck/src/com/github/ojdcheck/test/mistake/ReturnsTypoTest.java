@@ -27,54 +27,53 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.ojdcheck.test;
+package com.github.ojdcheck.test.mistake;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.ojdcheck.test.IClassDocTester;
+import com.github.ojdcheck.test.ITestReport;
+import com.github.ojdcheck.test.TestReport;
+import com.github.ojdcheck.test.IClassDocTester.Priority;
 import com.sun.javadoc.ClassDoc;
+import com.sun.javadoc.MethodDoc;
 import com.sun.javadoc.Tag;
 
-/**
- * Test that verifies that classes and methods have JavaDoc.
- */
-public class MultipleVersionTagsTest implements IClassDocTester {
+public class ReturnsTypoTest implements IClassDocTester {
 
     @Override
     public String getDescription() {
-        return "Checks if more than one @version tag is given on a Class.";
+        return "Warns about @returns tag presence.";
     }
 
     @Override
     public String getName() {
-        return "Only One Version Tag";
+        return "Return, not returns.";
     }
 
     @Override
     public List<ITestReport> test(ClassDoc classDoc) {
         List<ITestReport> reports = new ArrayList<ITestReport>();
-        Tag[] tags = classDoc.tags();
-        int versionTagCount = 0;
-        for (Tag tag : tags) {
-            if (tag.name().equals("@version"))
-                versionTagCount++;
-        }
-        if (versionTagCount > 1) {
-            reports.add(
-                new TestReport(
-                    this, classDoc,
-                    "More than one @version tag found.",
-                    classDoc.position().line(),
-                    null
-                )
-            );
+        MethodDoc[] methods = classDoc.methods();
+        for (MethodDoc method : methods) {
+            Tag[] tags = method.tags();
+            for (Tag tag : tags) {
+                if (tag.name().equals("@returns")) {
+                    reports.add(new TestReport(
+                        this, classDoc,
+                        "Tag @returns was found; was @return meant?",
+                        tag.position().line(), null
+                    ));
+                }
+            }
         }
         return reports;
     }
 
     @Override
     public Priority getPriority() {
-        return Priority.ERROR;
+        return Priority.WARNING;
     }
 
 }

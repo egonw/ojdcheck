@@ -27,63 +27,53 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.ojdcheck.test;
+package com.github.ojdcheck.test.mistake;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.ojdcheck.test.IClassDocTester;
+import com.github.ojdcheck.test.ITestReport;
+import com.github.ojdcheck.test.TestReport;
+import com.github.ojdcheck.test.IClassDocTester.Priority;
 import com.sun.javadoc.ClassDoc;
-import com.sun.javadoc.MethodDoc;
 import com.sun.javadoc.Tag;
 
 /**
- * Test that checks if @exception content matches a template default.
+ * Test that verifies that classes and methods have JavaDoc.
  */
-public class ExceptionTemplateTest implements IClassDocTester {
-
-    private final static String ECLIPSE_TEMPLATE =
-        "Description of the Exception";
+public class MultipleVersionTagsTest implements IClassDocTester {
 
     @Override
     public String getDescription() {
-        return "Checks if the @exception content is a template default";
+        return "Checks if more than one @version tag is given on a Class.";
     }
 
     @Override
     public String getName() {
-        return "Exception Tag Has Template Content";
+        return "Only One Version Tag";
     }
 
     @Override
     public List<ITestReport> test(ClassDoc classDoc) {
         List<ITestReport> reports = new ArrayList<ITestReport>();
-        MethodDoc[] methods = classDoc.methods();
-        for (MethodDoc method : methods) {
-            Tag[] tags = method.tags();
-            for (Tag tag : tags) {
-                if (tag.name().equals("@exception")) {
-                    matchTemplate(
-                        classDoc, reports, method, tag.text(), ECLIPSE_TEMPLATE
-                    );
-                }
-            }
+        Tag[] tags = classDoc.tags();
+        int versionTagCount = 0;
+        for (Tag tag : tags) {
+            if (tag.name().equals("@version"))
+                versionTagCount++;
         }
-        return reports;
-    }
-
-    private void matchTemplate(ClassDoc classDoc, List<ITestReport> reports,
-            MethodDoc method, String content, String template) {
-        if (content.contains(template)) {
+        if (versionTagCount > 1) {
             reports.add(
                 new TestReport(
                     this, classDoc,
-                    "The @exception tag content matches a template: '" +
-                    template + "'.",
-                    method.position().line(),
+                    "More than one @version tag found.",
+                    classDoc.position().line(),
                     null
                 )
             );
         }
+        return reports;
     }
 
     @Override

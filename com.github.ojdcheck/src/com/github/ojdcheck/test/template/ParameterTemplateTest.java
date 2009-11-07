@@ -27,25 +27,35 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.ojdcheck.test;
+package com.github.ojdcheck.test.template;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.ojdcheck.test.IClassDocTester;
+import com.github.ojdcheck.test.ITestReport;
+import com.github.ojdcheck.test.TestReport;
+import com.github.ojdcheck.test.IClassDocTester.Priority;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.MethodDoc;
 import com.sun.javadoc.Tag;
 
-public class ReturnsTypoTest implements IClassDocTester {
+/**
+ * Test that checks if @param content matches a template default.
+ */
+public class ParameterTemplateTest implements IClassDocTester {
+
+    private final static String ECLIPSE_TEMPLATE =
+        "Description of the Parameter";
 
     @Override
     public String getDescription() {
-        return "Warns about @returns tag presence.";
+        return "Checks if the @param content is a template default";
     }
 
     @Override
     public String getName() {
-        return "Return, not returns.";
+        return "Parameter Tag Has Template Content";
     }
 
     @Override
@@ -53,23 +63,36 @@ public class ReturnsTypoTest implements IClassDocTester {
         List<ITestReport> reports = new ArrayList<ITestReport>();
         MethodDoc[] methods = classDoc.methods();
         for (MethodDoc method : methods) {
-            Tag[] tags = method.tags();
+            Tag[] tags = method.paramTags();
             for (Tag tag : tags) {
-                if (tag.name().equals("@returns")) {
-                    reports.add(new TestReport(
-                        this, classDoc,
-                        "Tag @returns was found; was @return meant?",
-                        tag.position().line(), null
-                    ));
+                if (tag.name().equals("@param")) {
+                    matchTemplate(
+                        classDoc, reports, method, tag.text(), ECLIPSE_TEMPLATE
+                    );
                 }
             }
         }
         return reports;
     }
 
+    private void matchTemplate(ClassDoc classDoc, List<ITestReport> reports,
+            MethodDoc method, String content, String template) {
+        if (content.contains(template)) {
+            reports.add(
+                new TestReport(
+                    this, classDoc,
+                    "The @param tag content matches a template: '" +
+                    template + "'.",
+                    method.position().line(),
+                    null
+                )
+            );
+        }
+    }
+
     @Override
     public Priority getPriority() {
-        return Priority.WARNING;
+        return Priority.ERROR;
     }
 
 }

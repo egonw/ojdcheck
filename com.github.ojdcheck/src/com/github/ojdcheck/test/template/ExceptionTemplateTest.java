@@ -1,5 +1,4 @@
 /* Copyright (c) 2009  Egon Willighagen <egonw@users.sf.net>
- *
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,61 +27,67 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.ojdcheck.test;
+package com.github.ojdcheck.test.template;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.ojdcheck.test.IClassDocTester;
+import com.github.ojdcheck.test.ITestReport;
+import com.github.ojdcheck.test.TestReport;
+import com.github.ojdcheck.test.IClassDocTester.Priority;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.MethodDoc;
 import com.sun.javadoc.Tag;
-import com.sun.javadoc.Type;
 
 /**
- * Test that verifies that when a methods does not return void, a return
- * tag is given.
+ * Test that checks if @exception content matches a template default.
  */
-public class MissingReturnTagTest implements IClassDocTester {
+public class ExceptionTemplateTest implements IClassDocTester {
+
+    private final static String ECLIPSE_TEMPLATE =
+        "Description of the Exception";
 
     @Override
     public String getDescription() {
-        return "Checks whether a class that does not return void has a " +
-        		"@return tag.";
+        return "Checks if the @exception content is a template default";
     }
 
     @Override
     public String getName() {
-        return "Missing Return Tag";
+        return "Exception Tag Has Template Content";
     }
 
-    
     @Override
     public List<ITestReport> test(ClassDoc classDoc) {
         List<ITestReport> reports = new ArrayList<ITestReport>();
-        MethodDoc[] methodDocs = classDoc.methods();
-        for (MethodDoc methodDoc : methodDocs) {
-            Type returnType = methodDoc.returnType();
-            if (!returnType.typeName().equals("void")) {
-                // method return type != void, so require a return tag
-                Tag[] tags = methodDoc.tags();
-                boolean returnFound = false;
-                for (Tag tag : tags) {
-                    if (tag.name().equals("@return")) returnFound = true;
-                }
-                if (!returnFound) {
-                    reports.add(
-                        new TestReport(
-                            this, classDoc,
-                            "Missing @return for the method " +
-                            methodDoc.name() + ".",
-                            methodDoc.position().line(),
-                            null
-                        )
+        MethodDoc[] methods = classDoc.methods();
+        for (MethodDoc method : methods) {
+            Tag[] tags = method.tags();
+            for (Tag tag : tags) {
+                if (tag.name().equals("@exception")) {
+                    matchTemplate(
+                        classDoc, reports, method, tag.text(), ECLIPSE_TEMPLATE
                     );
                 }
             }
         }
         return reports;
+    }
+
+    private void matchTemplate(ClassDoc classDoc, List<ITestReport> reports,
+            MethodDoc method, String content, String template) {
+        if (content.contains(template)) {
+            reports.add(
+                new TestReport(
+                    this, classDoc,
+                    "The @exception tag content matches a template: '" +
+                    template + "'.",
+                    method.position().line(),
+                    null
+                )
+            );
+        }
     }
 
     @Override
