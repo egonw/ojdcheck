@@ -1,4 +1,4 @@
-/* Copyright (c) 2009  Egon Willighagen <egonw@users.sf.net>
+/* Copyright (c) 2009  Rajarshi Guha <rajarshi.guha@gmail.com>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Test that verifies that when an exception is thrown, a description of the conditions is provided.
+ * Test that verifies that when an exception is thrown, a description of the conditions is provided in the @throws tag.
  */
 public class MissingExceptionDescriptionTest implements IClassDocTester {
 
@@ -52,6 +52,12 @@ public class MissingExceptionDescriptionTest implements IClassDocTester {
         return "Missing Exception Description";
     }
 
+    /**
+     * Tests the given {@link ClassDoc} for a proper @throws tag.
+     *
+     * @param classDoc the {@link ClassDoc} to test.
+     * @return         a {@link List} with zero or more failures
+     */
     @Override
     public List<ITestReport> test(ClassDoc classDoc) {
         List<ITestReport> reports = new ArrayList<ITestReport>();
@@ -60,7 +66,8 @@ public class MissingExceptionDescriptionTest implements IClassDocTester {
             ThrowsTag[] ttags = mdoc.throwsTags();
             for (ThrowsTag ttag : ttags) {
                 if (ttag.exceptionComment() == null) {
-                    reports.add(new TestReport(this, classDoc, "Exception was not described", mdoc.position().line(), null));
+                    reports.add(new TestReport(this, classDoc, 
+			"Exception was not described", mdoc.position().line(), null));
                 }
             }
         }
@@ -69,7 +76,7 @@ public class MissingExceptionDescriptionTest implements IClassDocTester {
 
     @Override
     public Priority getPriority() {
-        return Priority.MINOR_ERROR;
+        return Priority.ERROR;
     }
 
 }
