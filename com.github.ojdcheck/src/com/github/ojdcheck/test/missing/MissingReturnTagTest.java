@@ -62,9 +62,9 @@ public class MissingReturnTagTest implements IClassDocTester {
     @Override
     public List<ITestReport> test(ClassDoc classDoc) {
         List<ITestReport> reports = new ArrayList<ITestReport>();
-        if (classDoc.tags("inheritDoc").length != 0) return reports;
         MethodDoc[] methodDocs = classDoc.methods();
         for (MethodDoc methodDoc : methodDocs) {
+            if (hasInheritedDoc(methodDoc)) continue;
             Type returnType = methodDoc.returnType();
             if (!returnType.typeName().equals("void")) {
                 // method return type != void, so require a return tag
@@ -87,6 +87,15 @@ public class MissingReturnTagTest implements IClassDocTester {
             }
         }
         return reports;
+    }
+
+    private boolean hasInheritedDoc(MethodDoc methodDoc) {
+        Tag[] tags = methodDoc.inlineTags();
+        for (Tag tag : tags) {
+            System.out.println("Found inline tag: " + tag.name());
+            if ("@inheritDoc".equals(tag.name())) return true;
+        }
+        return false;
     }
 
     @Override

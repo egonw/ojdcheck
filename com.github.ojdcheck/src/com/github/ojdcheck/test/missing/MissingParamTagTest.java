@@ -42,6 +42,7 @@ import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.MethodDoc;
 import com.sun.javadoc.ParamTag;
 import com.sun.javadoc.Parameter;
+import com.sun.javadoc.Tag;
 
 /**
  * Test that verifies that when a methods has parameters, the matching
@@ -64,9 +65,9 @@ public class MissingParamTagTest implements IClassDocTester {
     @Override
     public List<ITestReport> test(ClassDoc classDoc) {
         List<ITestReport> reports = new ArrayList<ITestReport>();
-        if (classDoc.tags("inheritDoc").length != 0) return reports;
         MethodDoc[] methodDocs = classDoc.methods();
         for (MethodDoc methodDoc : methodDocs) {
+            if (hasInheritedDoc(methodDoc)) continue;
             Parameter[] params = methodDoc.parameters();
             Map<String,ParamTag> foundParams = new HashMap<String,ParamTag>();
             ParamTag[] paramTags = methodDoc.paramTags();
@@ -89,6 +90,14 @@ public class MissingParamTagTest implements IClassDocTester {
             }
         }
         return reports;
+    }
+
+    private boolean hasInheritedDoc(MethodDoc methodDoc) {
+        Tag[] tags = methodDoc.inlineTags();
+        for (Tag tag : tags) {
+            if ("@inheritDoc".equals(tag.name())) return true;
+        }
+        return false;
     }
 
     @Override
