@@ -92,7 +92,6 @@ public class MissingReturnTagTest implements IClassDocTester {
     private boolean hasInheritedDoc(MethodDoc methodDoc) {
         Tag[] tags = methodDoc.inlineTags();
         for (Tag tag : tags) {
-            System.out.println("Found inline tag: " + tag.name());
             if ("@inheritDoc".equals(tag.name())) return true;
         }
         return false;
