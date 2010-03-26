@@ -64,6 +64,7 @@ public class MissingParamTagTest implements IClassDocTester {
     @Override
     public List<ITestReport> test(ClassDoc classDoc) {
         List<ITestReport> reports = new ArrayList<ITestReport>();
+        if (classDoc.tags("inheritDoc").length != 0) return reports;
         MethodDoc[] methodDocs = classDoc.methods();
         for (MethodDoc methodDoc : methodDocs) {
             Parameter[] params = methodDoc.parameters();
