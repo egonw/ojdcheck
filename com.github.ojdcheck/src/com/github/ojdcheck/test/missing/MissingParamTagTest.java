@@ -38,11 +38,11 @@ import java.util.Map;
 import com.github.ojdcheck.test.IClassDocTester;
 import com.github.ojdcheck.test.ITestReport;
 import com.github.ojdcheck.test.TestReport;
+import com.github.ojdcheck.util.JavaDocHelper;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.MethodDoc;
 import com.sun.javadoc.ParamTag;
 import com.sun.javadoc.Parameter;
-import com.sun.javadoc.Tag;
 
 /**
  * Test that verifies that when a methods has parameters, the matching
@@ -68,9 +68,9 @@ public class MissingParamTagTest implements IClassDocTester {
         MethodDoc[] methodDocs = classDoc.methods();
         for (MethodDoc methodDoc : methodDocs) {
             // do not fail if there is no JavaDoc
-            if (!hasJavaDoc(methodDoc)) continue;
+            if (!JavaDocHelper.hasJavaDoc(methodDoc)) continue;
             // do not check if we are inheriting JavaDoc
-            if (hasInheritedDoc(methodDoc)) continue;
+            if (JavaDocHelper.hasInheritedDoc(methodDoc)) continue;
 
             Parameter[] params = methodDoc.parameters();
             Map<String,ParamTag> foundParams = new HashMap<String,ParamTag>();
@@ -94,23 +94,6 @@ public class MissingParamTagTest implements IClassDocTester {
             }
         }
         return reports;
-    }
-
-    private boolean hasInheritedDoc(MethodDoc methodDoc) {
-        Tag[] tags = methodDoc.inlineTags();
-        for (Tag tag : tags) {
-            if ("@inheritDoc".equals(tag.name())) return true;
-        }
-        return false;
-    }
-
-    /**
-     * Do not fail on @param if there is no JavaDoc given at all. The test
-     * {@link MissingDescriptionTest} will fail then.
-     */
-    private boolean hasJavaDoc(MethodDoc method) {
-        String methodDoc = method.commentText();
-        return (methodDoc != null && methodDoc.length() != 0);
     }
 
     @Override
