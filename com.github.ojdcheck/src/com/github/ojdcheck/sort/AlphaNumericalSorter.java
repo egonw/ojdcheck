@@ -51,8 +51,6 @@ public class AlphaNumericalSorter implements Comparator<ITestReport> {
     @Override
     public int compare(ITestReport report1, ITestReport report2) {
         // first, test the class name
-        System.out.println("Class 1 name: " + report1.getTestedClass().qualifiedTypeName());
-        System.out.println("Class 2 name: " + report2.getTestedClass().qualifiedTypeName());
         int nameComparison =
             report1.getTestedClass().qualifiedTypeName().compareTo(
                 report2.getTestedClass().qualifiedTypeName()
