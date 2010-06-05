@@ -36,6 +36,7 @@ import java.util.List;
 import com.github.ojdcheck.test.IClassDocTester;
 import com.github.ojdcheck.test.ITestReport;
 import com.github.ojdcheck.test.TestReport;
+import com.github.ojdcheck.util.JavaDocHelper;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.MethodDoc;
 import com.sun.javadoc.ThrowsTag;
@@ -64,6 +65,9 @@ public class MissingExceptionDescriptionTest implements IClassDocTester {
         List<ITestReport> reports = new ArrayList<ITestReport>();
         MethodDoc[] methodDocs = classDoc.methods();
         for (MethodDoc mdoc : methodDocs) {
+            // do not fail if there is no JavaDoc
+            if (!JavaDocHelper.hasJavaDoc(mdoc)) continue;
+
             ThrowsTag[] ttags = mdoc.throwsTags();
             for (ThrowsTag ttag : ttags) {
                 if (ttag.exceptionComment() == null) {
