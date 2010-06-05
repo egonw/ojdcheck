@@ -67,7 +67,11 @@ public class MissingParamTagTest implements IClassDocTester {
         List<ITestReport> reports = new ArrayList<ITestReport>();
         MethodDoc[] methodDocs = classDoc.methods();
         for (MethodDoc methodDoc : methodDocs) {
+            // do not fail if there is no JavaDoc
+            if (!hasJavaDoc(methodDoc)) continue;
+            // do not check if we are inheriting JavaDoc
             if (hasInheritedDoc(methodDoc)) continue;
+
             Parameter[] params = methodDoc.parameters();
             Map<String,ParamTag> foundParams = new HashMap<String,ParamTag>();
             ParamTag[] paramTags = methodDoc.paramTags();
@@ -98,6 +102,15 @@ public class MissingParamTagTest implements IClassDocTester {
             if ("@inheritDoc".equals(tag.name())) return true;
         }
         return false;
+    }
+
+    /**
+     * Do not fail on @param if there is no JavaDoc given at all. The test
+     * {@link MissingDescriptionTest} will fail then.
+     */
+    private boolean hasJavaDoc(MethodDoc method) {
+        String methodDoc = method.commentText();
+        return (methodDoc != null && methodDoc.length() != 0);
     }
 
     @Override
