@@ -65,7 +65,11 @@ public class MissingReturnTagTest implements IClassDocTester {
         List<ITestReport> reports = new ArrayList<ITestReport>();
         MethodDoc[] methodDocs = classDoc.methods();
         for (MethodDoc methodDoc : methodDocs) {
+         // do not fail if there is no JavaDoc
+            if (!JavaDocHelper.hasJavaDoc(methodDoc)) continue;
+            // do not check if we are inheriting JavaDoc
             if (JavaDocHelper.hasInheritedDoc(methodDoc)) continue;
+
             Type returnType = methodDoc.returnType();
             if (!returnType.typeName().equals("void")) {
                 // method return type != void, so require a return tag
