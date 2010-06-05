@@ -34,11 +34,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.github.ojdcheck.report.IReportGenerator;
 import com.github.ojdcheck.report.XHTMLGenerator;
 import com.github.ojdcheck.report.XMLGenerator;
+import com.github.ojdcheck.sort.AlphaNumericalSorter;
 import com.github.ojdcheck.test.IClassDocTester;
 import com.github.ojdcheck.test.ITestReport;
 import com.github.ojdcheck.test.content.MissingExceptionDescriptionTest;
@@ -92,18 +94,24 @@ public class OpenJavaDocCheck extends Doclet {
         readOptions(root.options());
         if (!customOnly) addStandardTests();
         try {
+            // aggregate the reports
+            List<ITestReport> reports = new ArrayList<ITestReport>();
+            for (int i = 0; i < classes.length; ++i) {
+                ClassDoc classDoc = classes[i];
+                for (IClassDocTester test : docTests) {
+                    reports.addAll(test.test(classDoc));
+                }
+            }
+            // sort them
+            Collections.sort(reports, new AlphaNumericalSorter());
+
+            // create the report
             OutputStream out = outputFile != null
                 ? new FileOutputStream(new File(outputFile))
                 : System.out;
             generator.startReport(out);
-            for (int i = 0; i < classes.length; ++i) {
-                ClassDoc classDoc = classes[i];
-                for (IClassDocTester test : docTests) {
-                    List<ITestReport> reports = test.test(classDoc);
-                    for (ITestReport report : reports) {
-                        generator.report(report);
-                    }
-                }
+            for (ITestReport report : reports) {
+                generator.report(report);
             }
             generator.endReport();
         } catch (IOException exception) {
