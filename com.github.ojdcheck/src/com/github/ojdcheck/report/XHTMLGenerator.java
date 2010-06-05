@@ -76,6 +76,25 @@ public class XHTMLGenerator implements IReportGenerator {
              "xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\">" +
              NEWLINE
         );
+        writer.write("<head>" + NEWLINE);
+        writer.write(" <style type=\"text/css\">" + NEWLINE);
+        writer.write("   tr.oddRow {" + NEWLINE);
+        writer.write("     background-color: silver" + NEWLINE);
+        writer.write("   }" + NEWLINE);
+        writer.write("   tr.evenRow {" + NEWLINE);
+        writer.write("     background-color: white" + NEWLINE);
+        writer.write("   }" + NEWLINE);
+        writer.write("   td.error {" + NEWLINE);
+        writer.write("     background-color: red" + NEWLINE);
+        writer.write("   }" + NEWLINE);
+        writer.write("   td.minor_error {" + NEWLINE);
+        writer.write("     background-color: orange" + NEWLINE);
+        writer.write("   }" + NEWLINE);
+        writer.write("   td.warning {" + NEWLINE);
+        writer.write("     background-color: green" + NEWLINE);
+        writer.write("   }" + NEWLINE);
+        writer.write(" </style>" + NEWLINE);
+        writer.write("<head>" + NEWLINE);
         writer.write("<body><table>" + NEWLINE);
         writer.write(" <tr>" + NEWLINE);
         writer.write("   <td></td>" + NEWLINE);
@@ -108,14 +127,12 @@ public class XHTMLGenerator implements IReportGenerator {
         
         Priority prior = report.getPriority();
         counters.put(prior, counters.get(prior) + 1);
-        writer.write("  <tr class=\"violation\"" + (
+        writer.write("  <tr class=\"violation " + (
             lineCounter % 2 == 0
-                  ? " style=\"background-color: silver\""
-                  : "") +
-            ">" + NEWLINE);
-        writer.write("    <td style=\"background-color: " +
-             getPriorityColor(prior) +
-            "\" class=\"" + prior.name().toLowerCase() + "\">" +
+                  ? "evenRow"
+                  : "oddRow") +
+            "\">" + NEWLINE);
+        writer.write("    <td class=\"" + prior.name().toLowerCase() + "\">" +
             (prior.ordinal() + 1) + "</td>" + NEWLINE +
             "    <td>" + report.getTestedClass().qualifiedTypeName() + "</td>" +
             NEWLINE + "    <td>" + report.getStartLine() + "</td>" + NEWLINE +
@@ -125,10 +142,4 @@ public class XHTMLGenerator implements IReportGenerator {
         writer.flush();
     }
 
-    private String getPriorityColor(Priority priority) {
-        if (priority == Priority.ERROR) return "red";
-        if (priority == Priority.MINOR_ERROR) return "orange";
-        if (priority == Priority.WARNING) return "green";
-        return "white";
-    }
 }
