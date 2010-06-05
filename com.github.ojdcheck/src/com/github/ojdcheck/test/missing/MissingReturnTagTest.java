@@ -36,6 +36,7 @@ import java.util.List;
 import com.github.ojdcheck.test.IClassDocTester;
 import com.github.ojdcheck.test.ITestReport;
 import com.github.ojdcheck.test.TestReport;
+import com.github.ojdcheck.util.JavaDocHelper;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.MethodDoc;
 import com.sun.javadoc.Tag;
@@ -64,7 +65,7 @@ public class MissingReturnTagTest implements IClassDocTester {
         List<ITestReport> reports = new ArrayList<ITestReport>();
         MethodDoc[] methodDocs = classDoc.methods();
         for (MethodDoc methodDoc : methodDocs) {
-            if (hasInheritedDoc(methodDoc)) continue;
+            if (JavaDocHelper.hasInheritedDoc(methodDoc)) continue;
             Type returnType = methodDoc.returnType();
             if (!returnType.typeName().equals("void")) {
                 // method return type != void, so require a return tag
@@ -87,14 +88,6 @@ public class MissingReturnTagTest implements IClassDocTester {
             }
         }
         return reports;
-    }
-
-    private boolean hasInheritedDoc(MethodDoc methodDoc) {
-        Tag[] tags = methodDoc.inlineTags();
-        for (Tag tag : tags) {
-            if ("@inheritDoc".equals(tag.name())) return true;
-        }
-        return false;
     }
 
     @Override
