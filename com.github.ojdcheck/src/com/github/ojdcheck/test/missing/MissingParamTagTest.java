@@ -45,8 +45,8 @@ import com.sun.javadoc.ParamTag;
 import com.sun.javadoc.Parameter;
 
 /**
- * Test that verifies that when a methods has parameters, the matching
- * param tag entries are given.
+ * Test that verifies that when a method has parameters, the matching
+ * <code>param</code> tag entries are given.
  */
 public class MissingParamTagTest implements IClassDocTester {
 

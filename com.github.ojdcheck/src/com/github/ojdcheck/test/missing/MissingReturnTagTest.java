@@ -43,7 +43,7 @@ import com.sun.javadoc.Tag;
 import com.sun.javadoc.Type;
 
 /**
- * Test that verifies that when a methods does not return void, a return
+ * Test that verifies that when a method does not return void, a <code>return</code>
  * tag is given.
  */
 public class MissingReturnTagTest implements IClassDocTester {

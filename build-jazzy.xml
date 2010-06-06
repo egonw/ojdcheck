@@ -1,0 +1,41 @@
+<project name="ojdcheck" default="jar" basedir=".">
+    <target name="init">
+        <property name="src" value="com.github.ojdcheck.jazzy/src"/>
+        <property name="build" value="build"/>
+        <property name="libs" value="com.github.ojdcheck/jar"/>
+        <property name="libs.jazzy" value="com.github.ojdcheck.jazzy/jar"/>
+        <path id="class.path">
+            <fileset dir="${libs}" includes="*.jar"/>
+            <fileset dir="${libs.jazzy}" includes="*.jar"/>
+            <fileset dir="." includes="ojdcheck.jar"/>
+        </path>
+    </target>
+
+    <target name="clean" depends="init">
+        <delete>
+            <fileset dir="${build}">
+                <include name="**/*"/>
+            </fileset>
+        </delete>
+        <delete file="ojdcheck-jazzy.jar"/>
+    </target>
+
+    <target name="jar" depends="init">
+        <mkdir dir="${build}"/>
+        <javac srcdir="${src}" destdir="${build}" target="1.6">
+            <classpath refid="class.path"/>
+        </javac>
+        <copy todir="${build}/com/github/ojdcheck/jazzy/dict">
+            <fileset dir="${src}/com/github/ojdcheck/jazzy/dict">
+                <include name="**/*.dic"/>
+                <include name="**/*.txt"/>
+            </fileset>
+        </copy>
+        <unjar dest="${build}">
+            <fileset dir="${libs.jazzy}">
+                <include name="jazzy-core.jar"/>
+            </fileset>
+        </unjar>
+        <jar destfile="ojdcheck-jazzy.jar" basedir="${build}"/>
+    </target>
+</project>
