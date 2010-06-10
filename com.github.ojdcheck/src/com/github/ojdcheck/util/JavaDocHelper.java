@@ -31,6 +31,7 @@
 package com.github.ojdcheck.util;
 
 import com.sun.javadoc.MethodDoc;
+import com.sun.javadoc.ProgramElementDoc;
 import com.sun.javadoc.Tag;
 
 /**
@@ -39,13 +40,13 @@ import com.sun.javadoc.Tag;
 public class JavaDocHelper {
 
     /**
-     * Returns true of the {@link MethodDoc} has "@inheritDoc" annotation.
+     * Returns true of the {@link ProgramElementDoc} has "@inheritDoc" annotation.
      *
      * @param  method method to check.
      * @return        true if the method
      */
-    public static boolean hasInheritedDoc(MethodDoc methodDoc) {
-        Tag[] tags = methodDoc.inlineTags();
+    public static boolean hasInheritedDoc(ProgramElementDoc elementDoc) {
+        Tag[] tags = elementDoc.inlineTags();
         for (Tag tag : tags) {
             if ("@inheritDoc".equals(tag.name())) return true;
         }
@@ -55,11 +56,11 @@ public class JavaDocHelper {
     /**
      * Returns true of the {@link MethodDoc} has JavaDoc documentation.
      *
-     * @param  method method to check.
+     * @param  elementDoc method to check.
      * @return        true if the JavaDoc is present, false if missing.
      */
-    public static boolean hasJavaDoc(MethodDoc method) {
-        String methodDoc = method.commentText();
+    public static boolean hasJavaDoc(ProgramElementDoc elementDoc) {
+        String methodDoc = elementDoc.commentText();
         return (methodDoc != null && methodDoc.length() != 0);
     }
 
