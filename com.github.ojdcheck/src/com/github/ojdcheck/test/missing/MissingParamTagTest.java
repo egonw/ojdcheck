@@ -1,4 +1,5 @@
-/* Copyright (c) 2009  Egon Willighagen <egonw@users.sf.net>
+/* Copyright (c) 2009-2010  Egon Willighagen <egonw@users.sf.net>
+ *                    2010  Charles Shelton <charles.shelton@gmail.com>
  *
  * All rights reserved.
  *
@@ -68,6 +69,16 @@ public class MissingParamTagTest implements IClassDocTester {
             if (!JavaDocHelper.hasJavaDoc(methodDoc)) continue;
             // do not check if we are inheriting JavaDoc
             if (JavaDocHelper.hasInheritedDoc(methodDoc)) continue;
+
+            if (classDoc.isEnum() &&
+                ("values".equals(methodDoc.name()) ||
+                 "valueOf".equals(methodDoc.name()))
+                ) {
+                // screen out the valueOf()
+                // method from Enum types since they are not overridden and
+                // do not need javadoc comments.
+                continue;
+            }
 
             Parameter[] params = methodDoc.parameters();
             Map<String,ParamTag> foundParams = new HashMap<String,ParamTag>();

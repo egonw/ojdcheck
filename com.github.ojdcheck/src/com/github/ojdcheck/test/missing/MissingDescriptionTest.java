@@ -1,4 +1,6 @@
-/* Copyright (c) 2009  Egon Willighagen <egonw@users.sf.net>
+/* Copyright (c) 2009-2010  Egon Willighagen <egonw@users.sf.net>
+ *                    2010  Charles Shelton <charles.shelton@gmail.com>
+ *
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -71,6 +73,16 @@ public class MissingDescriptionTest implements IClassDocTester {
         for (MethodDoc method : methods) {
             String methodDoc = method.commentText();
             if (methodDoc == null || methodDoc.length() == 0) {
+                if (classDoc.isEnum() &&
+                    ("values".equals(method.name()) ||
+                     "valueOf".equals(method.name()))
+                   ) {
+                    // screen out the valueOf()
+                    // method from Enum types since they are not overridden and
+                    // do not need javadoc comments.
+                    continue;
+                }
+                
                 if (method.tags("inheritDoc").length == 0) {
                     reports.add(
                         new TestReport(
