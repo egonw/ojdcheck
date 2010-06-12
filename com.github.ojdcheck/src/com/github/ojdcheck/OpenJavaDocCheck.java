@@ -1,4 +1,6 @@
-/* Copyright (c) 2009  Egon Willighagen <egonw@users.sf.net>
+/* Copyright (c) 2009-2010  Egon Willighagen <egonw@users.sf.net>
+ *                    2010  Charles Shelton <charles.shelton@gmail.com>
+ *
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -55,6 +57,7 @@ import com.github.ojdcheck.test.template.ParameterTemplateTest;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.DocErrorReporter;
 import com.sun.javadoc.Doclet;
+import com.sun.javadoc.LanguageVersion;
 import com.sun.javadoc.RootDoc;
 
 /**
@@ -202,4 +205,14 @@ public class OpenJavaDocCheck extends Doclet {
         return true;
     }
 
+    /**
+     * Return the language version for the Java code being checked by OpenJavaDocCheck.
+     * We are using Java 1.5 so always return the value corresponding to that
+     * language version.
+     * 
+     * @return The value LanguageVersion.JAVA_1_5
+     */
+    public static LanguageVersion languageVersion() {
+        return LanguageVersion.JAVA_1_5;
+    }
 }
