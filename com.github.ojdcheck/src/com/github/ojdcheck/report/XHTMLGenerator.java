@@ -67,8 +67,9 @@ public class XHTMLGenerator implements IReportGenerator {
 
         writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + NEWLINE);
         writer.write(
-            "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML+RDFa 1.0//EN "+
-            "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd\">" + NEWLINE
+            "<!DOCTYPE html PUBLIC " + NEWLINE +
+            "  \"-//W3C//DTD XHTML+RDFa 1.0//EN\"" + NEWLINE +
+            "  \"http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd\">" + NEWLINE
         );
         writer.write(
              "<html xmlns=\"http://www.w3.org/1999/xhtml\" " + 
@@ -77,6 +78,7 @@ public class XHTMLGenerator implements IReportGenerator {
              NEWLINE
         );
         writer.write("<head>" + NEWLINE);
+        writer.write(" <title>OpenJavaDocCheck Report</title>" + NEWLINE);
         writer.write(" <style type=\"text/css\">" + NEWLINE);
         writer.write("   tr.oddRow {" + NEWLINE);
         writer.write("     background-color: silver" + NEWLINE);
@@ -94,7 +96,7 @@ public class XHTMLGenerator implements IReportGenerator {
         writer.write("     background-color: green" + NEWLINE);
         writer.write("   }" + NEWLINE);
         writer.write(" </style>" + NEWLINE);
-        writer.write("<head>" + NEWLINE);
+        writer.write("</head>" + NEWLINE);
         writer.write("<body><table>" + NEWLINE);
         writer.write(" <tr>" + NEWLINE);
         writer.write("   <td></td>" + NEWLINE);
