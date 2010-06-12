@@ -74,7 +74,10 @@ public class XHTMLGenerator implements IReportGenerator {
         writer.write(
              "<html xmlns=\"http://www.w3.org/1999/xhtml\" " + 
              "version=\"XHTML+RDFa 1.0\"" + NEWLINE +
-             "xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\">" +
+             "xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"" + NEWLINE +
+             "xmlns:ojdc=\"http://ojdcheck.github.com/ojdc/#\"" + NEWLINE +
+             "xmlns:java=\"http://ojdcheck.github.com/java/#\"" + NEWLINE +
+             "xmlns:dc=\"http://purl.org/dc/elements/1.1/\">" +
              NEWLINE
         );
         writer.write("<head>" + NEWLINE);
@@ -129,10 +132,12 @@ public class XHTMLGenerator implements IReportGenerator {
      */
     public void report(ITestReport report) throws IOException {
         lineCounter++;
+        if (lineCounter > 1) return;
         
         Priority prior = report.getPriority();
         counters.put(prior, counters.get(prior) + 1);
-        writer.write("  <tr class=\"violation " + (
+        writer.write("  <tr about=\"#report" + lineCounter + "\" typeof=" +
+        	"\"ojdc:Violation\" class=\"violation " + (
             lineCounter % 2 == 0
                   ? "evenRow"
                   : "oddRow") +
@@ -140,16 +145,21 @@ public class XHTMLGenerator implements IReportGenerator {
 
         // check if we need to add a hyperlink
         String failMessage = "";
-        if (report.getURL() != null)
-            failMessage += "<a href=\"" + report.getURL() + "\">";
+        if (report.getURL() != null) {
+            failMessage += "<a rel=\"ojdc:type\" " +
+            	"property=\"ojdc:hasMessage\" href=\"" + report.getURL() + "\">";
+        }
         failMessage += report.getFailMessage();
         if (report.getURL() != null)
             failMessage += "</a>";     
 
         writer.write("    <td class=\"" + prior.name().toLowerCase() + "\">" +
             (prior.ordinal() + 1) + "</td>" + NEWLINE +
-            "    <td>" + report.getTestedClass().qualifiedTypeName() + "</td>" +
-            NEWLINE + "    <td>" + report.getStartLine() + "</td>" + NEWLINE +
+            "    <td rel=\"ojdc:inClass\"><span typeof=\"java:class\" about=\"#" +
+            report.getTestedClass().qualifiedTypeName() + "\" property=\"dc:title\">" + 
+            report.getTestedClass().qualifiedTypeName() + "</span></td>" +
+            NEWLINE + "    <td property=\"ojdc:startLine\">" + report.getStartLine() +
+            "</td>" + NEWLINE +
             "    <td>" + failMessage + "</td>" + NEWLINE
         );
         writer.write("  </tr>" + NEWLINE);
