@@ -1,4 +1,4 @@
 *~
 *.jar
 build/
-com.github.ojdcheck*
+com.github.ojdcheck*/
