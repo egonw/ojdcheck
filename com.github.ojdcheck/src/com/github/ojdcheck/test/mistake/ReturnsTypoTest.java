@@ -41,17 +41,14 @@ import com.sun.javadoc.Tag;
 
 public class ReturnsTypoTest implements IClassDocTester {
 
-    @Override
     public String getDescription() {
         return "Warns about @returns tag presence.";
     }
 
-    @Override
     public String getName() {
         return "Return, not returns.";
     }
 
-    @Override
     public List<ITestReport> test(ClassDoc classDoc) {
         List<ITestReport> reports = new ArrayList<ITestReport>();
         MethodDoc[] methods = classDoc.methods();
@@ -70,7 +67,6 @@ public class ReturnsTypoTest implements IClassDocTester {
         return reports;
     }
 
-    @Override
     public Priority getPriority() {
         return Priority.WARNING;
     }

@@ -40,17 +40,14 @@ import com.sun.javadoc.Tag;
 
 public class MissingPeriodInFirstSentenceTest implements IClassDocTester {
 
-    @Override
     public String getDescription() {
         return "Tests if the first sentence ends with a period.";
     }
 
-    @Override
     public String getName() {
         return "First Sentence Period";
     }
 
-    @Override
     public List<ITestReport> test(ClassDoc classDoc) {
         List<ITestReport> reports = new ArrayList<ITestReport>();
         Tag[] tags = classDoc.firstSentenceTags();
@@ -71,7 +68,6 @@ public class MissingPeriodInFirstSentenceTest implements IClassDocTester {
         return reports;
     }
 
-    @Override
     public Priority getPriority() {
         return Priority.ERROR;
     }

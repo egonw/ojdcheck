@@ -43,17 +43,14 @@ import com.sun.javadoc.Tag;
  */
 public class MultipleVersionTagsTest implements IClassDocTester {
 
-    @Override
     public String getDescription() {
         return "Checks if more than one @version tag is given on a Class.";
     }
 
-    @Override
     public String getName() {
         return "Only One Version Tag";
     }
 
-    @Override
     public List<ITestReport> test(ClassDoc classDoc) {
         List<ITestReport> reports = new ArrayList<ITestReport>();
         Tag[] tags = classDoc.tags();
@@ -75,7 +72,6 @@ public class MultipleVersionTagsTest implements IClassDocTester {
         return reports;
     }
 
-    @Override
     public Priority getPriority() {
         return Priority.ERROR;
     }

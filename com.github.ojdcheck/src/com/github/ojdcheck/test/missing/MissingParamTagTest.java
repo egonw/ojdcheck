@@ -50,19 +50,16 @@ import com.sun.javadoc.Parameter;
  */
 public class MissingParamTagTest implements IClassDocTester {
 
-    @Override
     public String getDescription() {
         return "Checks whether a method has @param tags for all " +
         		"parameters.";
     }
 
-    @Override
     public String getName() {
         return "Missing Param Tag";
     }
 
     
-    @Override
     public List<ITestReport> test(ClassDoc classDoc) {
         List<ITestReport> reports = new ArrayList<ITestReport>();
         MethodDoc[] methodDocs = classDoc.methods();
@@ -96,7 +93,6 @@ public class MissingParamTagTest implements IClassDocTester {
         return reports;
     }
 
-    @Override
     public Priority getPriority() {
         return Priority.ERROR;
     }

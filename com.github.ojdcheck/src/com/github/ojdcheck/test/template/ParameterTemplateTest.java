@@ -47,17 +47,14 @@ public class ParameterTemplateTest implements IClassDocTester {
     private final static String ECLIPSE_TEMPLATE =
         "Description of the Parameter";
 
-    @Override
     public String getDescription() {
         return "Checks if the @param content is a template default";
     }
 
-    @Override
     public String getName() {
         return "Parameter Tag Has Template Content";
     }
 
-    @Override
     public List<ITestReport> test(ClassDoc classDoc) {
         List<ITestReport> reports = new ArrayList<ITestReport>();
         MethodDoc[] methods = classDoc.methods();
@@ -89,7 +86,6 @@ public class ParameterTemplateTest implements IClassDocTester {
         }
     }
 
-    @Override
     public Priority getPriority() {
         return Priority.ERROR;
     }

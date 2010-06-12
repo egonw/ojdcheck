@@ -69,12 +69,10 @@ public class TestReport implements ITestReport {
         return this.failMessage;
     }
 
-    @Override
     public Type getTestedClass() {
         return this.testedClass;
     }
 
-    @Override
     public Priority getPriority() {
         return test.getPriority();
     }

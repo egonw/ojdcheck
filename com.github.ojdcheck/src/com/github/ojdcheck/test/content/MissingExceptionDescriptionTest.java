@@ -47,20 +47,17 @@ import com.sun.javadoc.ThrowsTag;
  */
 public class MissingExceptionDescriptionTest implements IClassDocTester {
 
-    @Override
     public String getDescription() {
         return "Checks whether a class that throws an" +
                 "exception, describes when the exception is thrown " +
                 "with @throws or @exception";
     }
 
-    @Override
     public String getName() {
         return "Missing Exception Description";
     }
 
     
-    @Override
     public List<ITestReport> test(ClassDoc classDoc) {
         List<ITestReport> reports = new ArrayList<ITestReport>();
         MethodDoc[] methodDocs = classDoc.methods();
@@ -83,7 +80,6 @@ public class MissingExceptionDescriptionTest implements IClassDocTester {
         return reports;
     }
 
-    @Override
     public Priority getPriority() {
         return Priority.ERROR;
     }

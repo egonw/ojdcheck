@@ -41,13 +41,11 @@ import java.util.List;
  */
 public class MissingExceptionDescriptionTest implements IClassDocTester {
 
-    @Override
     public String getDescription() {
         return "Checks whether a class that throws an" +
                 "exception, describes when the exception is thrown";
     }
 
-    @Override
     public String getName() {
         return "Missing Exception Description";
     }
@@ -58,7 +56,6 @@ public class MissingExceptionDescriptionTest implements IClassDocTester {
      * @param classDoc the {@link ClassDoc} to test.
      * @return         a {@link List} with zero or more failures
      */
-    @Override
     public List<ITestReport> test(ClassDoc classDoc) {
         List<ITestReport> reports = new ArrayList<ITestReport>();
         MethodDoc[] methodDocs = classDoc.methods();
@@ -74,7 +71,6 @@ public class MissingExceptionDescriptionTest implements IClassDocTester {
         return reports;
     }
 
-    @Override
     public Priority getPriority() {
         return Priority.ERROR;
     }

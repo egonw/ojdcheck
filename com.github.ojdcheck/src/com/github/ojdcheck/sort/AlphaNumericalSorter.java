@@ -49,7 +49,6 @@ public class AlphaNumericalSorter implements Comparator<ITestReport> {
      * @param  report2 the second report to compare
      * @return         an negative, zero, or positive int
      */
-    @Override
     public int compare(ITestReport report1, ITestReport report2) {
         // first, test the class name
         int nameComparison =

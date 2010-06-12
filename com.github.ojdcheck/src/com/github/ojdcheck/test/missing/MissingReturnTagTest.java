@@ -48,19 +48,15 @@ import com.sun.javadoc.Type;
  */
 public class MissingReturnTagTest implements IClassDocTester {
 
-    @Override
     public String getDescription() {
         return "Checks whether a class that does not return void has a " +
         		"@return tag.";
     }
 
-    @Override
     public String getName() {
         return "Missing Return Tag";
     }
 
-    
-    @Override
     public List<ITestReport> test(ClassDoc classDoc) {
         List<ITestReport> reports = new ArrayList<ITestReport>();
         MethodDoc[] methodDocs = classDoc.methods();
@@ -94,7 +90,6 @@ public class MissingReturnTagTest implements IClassDocTester {
         return reports;
     }
 
-    @Override
     public Priority getPriority() {
         return Priority.ERROR;
     }

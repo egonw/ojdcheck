@@ -43,18 +43,15 @@ import com.sun.javadoc.MethodDoc;
  */
 public class MissingDescriptionTest implements IClassDocTester {
 
-    @Override
     public String getDescription() {
         return "Checks if the class or method is missing a JavaDoc " +
         		"description";
     }
 
-    @Override
     public String getName() {
         return "Missing JavaDoc Description";
     }
 
-    @Override
     public List<ITestReport> test(ClassDoc classDoc) {
         List<ITestReport> reports = new ArrayList<ITestReport>();
         String classJavaDoc = classDoc.commentText();
@@ -90,7 +87,6 @@ public class MissingDescriptionTest implements IClassDocTester {
         return reports;
     }
 
-    @Override
     public Priority getPriority() {
         return Priority.ERROR;
     }
