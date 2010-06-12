@@ -117,6 +117,9 @@ public class XHTMLGenerator implements IReportGenerator {
                 counters.get(prior) + "</span>" + NEWLINE);
         }
         writer.write("</p>" + NEWLINE);
+        writer.write("<p>This report was generated with <a href=\"http://github.com/egonw/ojdcheck/\"" +
+        	">OpenJavaDocCheck</a>.</p>" + NEWLINE);
+        writer.write("</body>" + NEWLINE);
         writer.write("</html>" + NEWLINE);
         writer.flush();
     }
