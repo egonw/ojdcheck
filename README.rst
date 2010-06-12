@@ -7,7 +7,9 @@ Project where I plan to write an Open Source DocCheck alternative.
 
 Example output:
 
+* http://egonw.github.com/ojdcheck/com.github.ojdcheck.html
 * http://egonw.github.com/ojdcheck/org.openscience.cdk.html
+* http://egonw.github.com/ojdcheck/signatures.html
 
 Why?
 ----

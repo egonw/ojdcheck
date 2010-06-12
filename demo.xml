@@ -1,0 +1,33 @@
+<project name="ojdcheckDemo" default="demo">
+
+  <!-- Runs OpenJavaDocCheck on projects I have around. -->
+
+  <target name="demo">
+    <antcall target="ojdcheck-project">
+      <param name="project" value="com.github.ojdcheck"/>
+      <param name="path" value="com.github.ojdcheck/src"/>
+    </antcall>
+    <antcall target="ojdcheck-project">
+      <param name="project" value="signatures"/>
+      <param name="path" value="../signatures/src/main/java"/>
+    </antcall>
+  </target>
+
+  <target name="ojdcheck-project">
+    <javadoc private="false" public="true">
+      <doclet name="com.github.ojdcheck.OpenJavaDocCheck"
+              path="ojdcheck.jar:ojdcheck-jazzy.jar">
+        <param name="-xhtml"/>
+        <param name="-file"
+              value="../ojdcheck-ghpages/${project}.html"/>
+        <param name="-tests"
+              value="com.github.ojdcheck.jazzy.SpellCheckerTest"/>
+      </doclet>
+      <sourcepath>
+        <pathelement path="${path}"/>
+      </sourcepath>
+    </javadoc>
+  </target>
+
+</project>
+
