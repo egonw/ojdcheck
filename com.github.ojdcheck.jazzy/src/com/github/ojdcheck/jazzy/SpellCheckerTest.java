@@ -167,4 +167,10 @@ public class SpellCheckerTest implements IClassDocTester {
 
       }
 
+    @Override
+    public String getURL() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }
