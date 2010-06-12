@@ -5,6 +5,10 @@ Project where I plan to write an Open Source DocCheck alternative.
 
 .. image:: http://github.com/egonw/ojdcheck/raw/master/ojdcheckXHTML.png
 
+Example output:
+
+* http://egonw.github.com/ojdcheck/org.openscience.cdk.html
+
 Why?
 ----
 
