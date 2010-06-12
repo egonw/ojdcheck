@@ -15,6 +15,7 @@ Copyright
 ---------
 
 2009-2010  Egon Willighagen <egon.willighagen@gmail.com>
+     2009  Rajarshi Guha <rajarshi.guha@gmail.com>
      2010  Charles Shelton <charles.shelton@gmail.com>
 
 License
