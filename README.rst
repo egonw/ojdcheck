@@ -69,6 +69,17 @@ The third option is to control the output type, and you can use -xml and -xhtml.
 A fourth option, -customonly, will only use the tests passed with the -tests
 command.
 
+Creating Help Pages
+-------------------
+
+It is possible for each test to define a URL to point a HTML page with further
+explanation around the unit test. Future versions may provide an API to provide
+examples that cause the test to fail.
+
+There is a helper program to create such a help page:
+
+  CLASSPATH=com.github.ojdcheck/jar/openjdk.javadoc.jar:com.github.ojdcheck/bin:com.github.ojdcheck.help/bin \\
+  java com.github.ojdcheck.help.CreateHelpPage ojdcheck.tests.html
 
 Jazzy
 -----
