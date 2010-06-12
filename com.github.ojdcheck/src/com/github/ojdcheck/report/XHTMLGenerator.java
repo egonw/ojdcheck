@@ -132,7 +132,6 @@ public class XHTMLGenerator implements IReportGenerator {
      */
     public void report(ITestReport report) throws IOException {
         lineCounter++;
-        if (lineCounter > 1) return;
         
         Priority prior = report.getPriority();
         counters.put(prior, counters.get(prior) + 1);
