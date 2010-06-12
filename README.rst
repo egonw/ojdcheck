@@ -11,21 +11,31 @@ Why?
 I keep not finding an Open alternative for DocCheck. And how hard can it be
 to write one myself?
 
+Copyright
+---------
+
+2009-2010  Egon Willighagen <egon.willighagen@gmail.com>
+
 License
 -------
 
-New BSD.
+This project license it source code as:
 
-License of files in jar/
-------------------------
+New BSD (see http://www.opensource.org/licenses/bsd-license.php).
+
+Third party Licenses
+--------------------
+
+* OpenJDK JavaDoc 1.5 API
 
 The jar binaries in the com.github.ojdcheck/jar folder are copied from the
-Ubuntu gjdoc package, license GPL v2. See:
+Ubuntu openjdk package, license GPL v2. This library does not depend on
+openjdk to run, but on the JavaDoc 1.5 APIs it defines instead, which are
+used upon compile time.
 
-http://changelogs.ubuntu.com/changelogs/pool/main/g/gjdoc/gjdoc_0.7.9-1/gjdoc.copyright
+* Jazzy
 
-This library does not depend on gjdoc, but on the JavaDoc APIs instead upon compile
-time, as well as runtime.
+Jazzy is an LGPL spell checker, see http://jazzy.sf.net/.
 
 Howto
 -----
