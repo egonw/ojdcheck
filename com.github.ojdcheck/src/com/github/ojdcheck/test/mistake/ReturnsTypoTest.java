@@ -1,4 +1,4 @@
-/* Copyright (c) 2009  Egon Willighagen <egonw@users.sf.net>
+/* Copyright (c) 2009-2010  Egon Willighagen <egonw@users.sf.net>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,6 +32,7 @@ package com.github.ojdcheck.test.mistake;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.ojdcheck.test.AbstractOJDCheckTest;
 import com.github.ojdcheck.test.IClassDocTester;
 import com.github.ojdcheck.test.ITestReport;
 import com.github.ojdcheck.test.TestReport;
@@ -39,7 +40,7 @@ import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.MethodDoc;
 import com.sun.javadoc.Tag;
 
-public class ReturnsTypoTest implements IClassDocTester {
+public class ReturnsTypoTest extends AbstractOJDCheckTest implements IClassDocTester {
 
     public String getDescription() {
         return "Warns about @returns tag presence.";

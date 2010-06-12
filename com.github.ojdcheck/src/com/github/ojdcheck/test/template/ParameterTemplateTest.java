@@ -1,4 +1,4 @@
-/* Copyright (c) 2009  Egon Willighagen <egonw@users.sf.net>
+/* Copyright (c) 2009-2010  Egon Willighagen <egonw@users.sf.net>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,6 +32,7 @@ package com.github.ojdcheck.test.template;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.ojdcheck.test.AbstractOJDCheckTest;
 import com.github.ojdcheck.test.IClassDocTester;
 import com.github.ojdcheck.test.ITestReport;
 import com.github.ojdcheck.test.TestReport;
@@ -42,7 +43,7 @@ import com.sun.javadoc.Tag;
 /**
  * Test that checks if @param content matches a template default.
  */
-public class ParameterTemplateTest implements IClassDocTester {
+public class ParameterTemplateTest extends AbstractOJDCheckTest implements IClassDocTester {
 
     private final static String ECLIPSE_TEMPLATE =
         "Description of the Parameter";

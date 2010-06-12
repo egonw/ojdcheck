@@ -34,6 +34,7 @@ package com.github.ojdcheck.test.missing;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.ojdcheck.test.AbstractOJDCheckTest;
 import com.github.ojdcheck.test.IClassDocTester;
 import com.github.ojdcheck.test.ITestReport;
 import com.github.ojdcheck.test.TestReport;
@@ -43,7 +44,7 @@ import com.sun.javadoc.MethodDoc;
 /**
  * Test that verifies that classes and methods have JavaDoc.
  */
-public class MissingDescriptionTest implements IClassDocTester {
+public class MissingDescriptionTest extends AbstractOJDCheckTest implements IClassDocTester {
 
     public String getDescription() {
         return "Checks if the class or method is missing a JavaDoc " +

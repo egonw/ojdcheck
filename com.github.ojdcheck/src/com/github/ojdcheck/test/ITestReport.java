@@ -73,6 +73,13 @@ public interface ITestReport {
     public String getDescription();
 
     /**
+     * Returns a URL pointing to help for this test.
+     *
+     * @return a {@link String} version of a URL. 
+     */
+    public String getURL();
+
+    /**
      * Returns a message about why the test failed.
      *
      * @return a {@link String} describing why reason of fail. 

@@ -1,4 +1,4 @@
-/* Copyright (c) 2009  Rajarshi Guha <rajarshi.guha@gmail.com>
+/* Copyright (c) 2009-2010  Rajarshi Guha <rajarshi.guha@gmail.com>
  *
  * All rights reserved.
  *
@@ -33,6 +33,7 @@ package com.github.ojdcheck.test.content;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.ojdcheck.test.AbstractOJDCheckTest;
 import com.github.ojdcheck.test.IClassDocTester;
 import com.github.ojdcheck.test.ITestReport;
 import com.github.ojdcheck.test.TestReport;
@@ -45,7 +46,7 @@ import com.sun.javadoc.ThrowsTag;
  * Test that verifies that when an exception is thrown, a description of the
  * conditions is provided.
  */
-public class MissingExceptionDescriptionTest implements IClassDocTester {
+public class MissingExceptionDescriptionTest extends AbstractOJDCheckTest implements IClassDocTester {
 
     public String getDescription() {
         return "Checks whether a class that throws an" +
@@ -83,5 +84,4 @@ public class MissingExceptionDescriptionTest implements IClassDocTester {
     public Priority getPriority() {
         return Priority.ERROR;
     }
-
 }

@@ -1,4 +1,5 @@
-/* Copyright (c) 2009  Egon Willighagen <egonw@users.sf.net>
+/* Copyright (c) 2009  Rajarshi Guha <rajarshi.guha@gmail.com>
+ *
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,55 +30,18 @@
  */
 package com.github.ojdcheck.test;
 
-import java.util.List;
-
-import com.sun.javadoc.ClassDoc;
-
 /**
- * Interface for testers that validate a certain aspect of the JavaDoc.
+ * Base class for OpenJavaDocCheck tests, but really only returns a URL
+ * to the HTML help webpage. It is not supposed to be used by custom
+ * tests.
  */
-public interface IClassDocTester {
+public abstract class AbstractOJDCheckTest implements IClassDocTester {
 
-    public enum Priority {
-        ERROR,
-        MINOR_ERROR,
-        WARNING
+    public String getURL() {
+        String className = this.getClass().getName();
+        String testName = className.substring(className.lastIndexOf('.')+1);
+        return "http://egonw.github.com/ojdcheck/ojdcheck.tests.html#" +
+            testName;
     }
 
-    /**
-     * Tests the given {@link ClassDoc} for a certain JavaDoc error.
-     *
-     * @param classDoc the {@link ClassDoc} to test.
-     * @return         a {@link List} with zero or more failures
-     */
-    public List<ITestReport> test(ClassDoc classDoc);
-
-    /**
-     * Returns the name of the type of fail.
-     *
-     * @return a {@link String} naming this type of fail. 
-     */
-    public String getName();
-
-    /**
-     * Returns a description on why the test failed.
-     *
-     * @return a {@link String} describing why the test failed. 
-     */
-    public String getDescription();
-
-    /**
-     * Returns the priority it the fail.
-     *
-     * @return a Priority of the fail. 
-     */
-    public Priority getPriority();
-
-    /**
-     * Optionally returns a {@link String} pointing to HTML page with explanation
-     * about this rule.
-     * 
-     * @return a {@link String} point to a HTML page, or null if none is defined
-     */
-    public String getURL();
 }

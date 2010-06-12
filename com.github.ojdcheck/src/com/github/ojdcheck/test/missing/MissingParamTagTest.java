@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.github.ojdcheck.test.AbstractOJDCheckTest;
 import com.github.ojdcheck.test.IClassDocTester;
 import com.github.ojdcheck.test.ITestReport;
 import com.github.ojdcheck.test.TestReport;
@@ -49,7 +50,7 @@ import com.sun.javadoc.Parameter;
  * Test that verifies that when a method has parameters, the matching
  * <code>param</code> tag entries are given.
  */
-public class MissingParamTagTest implements IClassDocTester {
+public class MissingParamTagTest extends AbstractOJDCheckTest implements IClassDocTester {
 
     public String getDescription() {
         return "Checks whether a method has @param tags for all " +

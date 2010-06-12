@@ -65,6 +65,10 @@ public class TestReport implements ITestReport {
         return test.getDescription();
     }
 
+    public String getURL() {
+        return test.getURL();
+    }
+
     public String getFailMessage() {
         return this.failMessage;
     }

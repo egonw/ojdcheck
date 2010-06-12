@@ -1,4 +1,4 @@
-/* Copyright (c) 2009  Egon Willighagen <egonw@users.sf.net>
+/* Copyright (c) 2009-2010  Egon Willighagen <egonw@users.sf.net>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,6 +32,7 @@ package com.github.ojdcheck.test.mistake;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.ojdcheck.test.AbstractOJDCheckTest;
 import com.github.ojdcheck.test.IClassDocTester;
 import com.github.ojdcheck.test.ITestReport;
 import com.github.ojdcheck.test.TestReport;
@@ -41,7 +42,7 @@ import com.sun.javadoc.Tag;
 /**
  * Test that verifies that classes and methods have JavaDoc.
  */
-public class MultipleVersionTagsTest implements IClassDocTester {
+public class MultipleVersionTagsTest extends AbstractOJDCheckTest implements IClassDocTester {
 
     public String getDescription() {
         return "Checks if more than one @version tag is given on a Class.";

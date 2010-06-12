@@ -1,4 +1,4 @@
-/* Copyright (c) 2009  Egon Willighagen <egonw@users.sf.net>
+/* Copyright (c) 2009-2010  Egon Willighagen <egonw@users.sf.net>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,13 +32,14 @@ package com.github.ojdcheck.test.content;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.ojdcheck.test.AbstractOJDCheckTest;
 import com.github.ojdcheck.test.IClassDocTester;
 import com.github.ojdcheck.test.ITestReport;
 import com.github.ojdcheck.test.TestReport;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.Tag;
 
-public class MissingPeriodInFirstSentenceTest implements IClassDocTester {
+public class MissingPeriodInFirstSentenceTest extends AbstractOJDCheckTest implements IClassDocTester {
 
     public String getDescription() {
         return "Tests if the first sentence ends with a period.";

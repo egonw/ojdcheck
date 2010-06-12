@@ -132,11 +132,20 @@ public class XHTMLGenerator implements IReportGenerator {
                   ? "evenRow"
                   : "oddRow") +
             "\">" + NEWLINE);
+
+        // check if we need to add a hyperlink
+        String failMessage = "";
+        if (report.getURL() != null)
+            failMessage += "<a href=\"" + report.getURL() + "\">";
+        failMessage += report.getFailMessage();
+        if (report.getURL() != null)
+            failMessage += "</a>";     
+
         writer.write("    <td class=\"" + prior.name().toLowerCase() + "\">" +
             (prior.ordinal() + 1) + "</td>" + NEWLINE +
             "    <td>" + report.getTestedClass().qualifiedTypeName() + "</td>" +
             NEWLINE + "    <td>" + report.getStartLine() + "</td>" + NEWLINE +
-            "    <td>" + report.getFailMessage() + "</td>" + NEWLINE
+            "    <td>" + failMessage + "</td>" + NEWLINE
         );
         writer.write("  </tr>" + NEWLINE);
         writer.flush();

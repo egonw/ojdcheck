@@ -34,6 +34,7 @@ package com.github.ojdcheck.test.missing;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.ojdcheck.test.AbstractOJDCheckTest;
 import com.github.ojdcheck.test.IClassDocTester;
 import com.github.ojdcheck.test.ITestReport;
 import com.github.ojdcheck.test.TestReport;
@@ -47,7 +48,7 @@ import com.sun.javadoc.Type;
  * Test that verifies that when a method does not return void, a <code>return</code>
  * tag is given.
  */
-public class MissingReturnTagTest implements IClassDocTester {
+public class MissingReturnTagTest extends AbstractOJDCheckTest implements IClassDocTester {
 
     public String getDescription() {
         return "Checks whether a class that does not return void has a " +
