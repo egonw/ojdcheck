@@ -1,0 +1,4 @@
+*~
+*.jar
+build/
+com.github.ojdcheck*
