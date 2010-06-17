@@ -134,6 +134,11 @@ public class OpenJavaDocCheck extends Doclet {
                 customOnly = true;
             } else if ("-xhtml".equals(option[0])) {
                 generator = new XHTMLGenerator();
+            } else if ("-ojdcparam".equals(option[0])) {
+                String[] param = option[1].split("=");
+                System.setProperty(param[0], param[1]);
+                System.out.println("Setting property: " + param[0]);
+                System.out.println(" value: " + param[1]);
             } else if ("-tests".equals(option[0])) {
                 String[] tests = option[1].contains(",")
                     ? option[1].split(",")
@@ -152,11 +157,11 @@ public class OpenJavaDocCheck extends Doclet {
                             );
                         }
                     } catch (ClassNotFoundException e) {
-                        System.out.println("Could not load class: " + test);
+                        System.out.println("Could not load class '" + test + "': " + e.getMessage());
                     } catch (InstantiationException e) {
-                        System.out.println("Could not instantiate class: " + test);
+                        System.out.println("Could not instantiate class '" + test + "': " + e.getMessage());
                     } catch (IllegalAccessException e) {
-                        System.out.println("Could not access class: " + test);
+                        System.out.println("Could not access class '" + test + "': " + e.getMessage());
                     }
                 }
             }
@@ -183,6 +188,8 @@ public class OpenJavaDocCheck extends Doclet {
             return 1;
         } else if ("-customonly".equals(option)) {
             return 1;
+        } else if ("-ojdcparam".equals(option)) {
+            return 2;
         }
         return 0;
     }
