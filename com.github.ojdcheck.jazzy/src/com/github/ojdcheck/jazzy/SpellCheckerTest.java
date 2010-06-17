@@ -16,6 +16,7 @@
  */
 package com.github.ojdcheck.jazzy;
 
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -38,6 +39,7 @@ import com.swabunga.spell.event.StringWordTokenizer;
 public class SpellCheckerTest implements IClassDocTester {
 
     private SpellChecker spellChecker;
+    boolean alreadyReadCustomDictionaries = false;
 
     String[] dictionaries = {
         // dictionaries that come with Jazzy
@@ -63,6 +65,30 @@ public class SpellCheckerTest implements IClassDocTester {
         }
     }
     
+    private void readCustomDictionaries() {
+        if (alreadyReadCustomDictionaries) return;
+
+        // read custom dictionaries
+        String jazzyDict = System.getProperty("jazzy.dict");
+        if (jazzyDict != null) {
+            String[] customDictionaries = System.getProperty("jazzy.dict").split(":");
+            for (String customDict : customDictionaries) {
+                System.out.println("Custom dictionary: " + customDict);
+                try {
+                    SpellDictionaryHashMap dictionary = new SpellDictionaryHashMap(
+                        new InputStreamReader(
+                            this.getClass().getClassLoader().getResourceAsStream(customDict)
+                        )
+                    );
+                    spellChecker.addDictionary(dictionary);
+                } catch (Exception e) {
+                    System.err.println("Could not read dictionary from classpath: " + customDict);
+                }
+            }
+        }
+        alreadyReadCustomDictionaries = true;
+    }
+    
     @Override
     public String getDescription() {
         return "Spell checks the JavaDoc.";
@@ -80,6 +106,9 @@ public class SpellCheckerTest implements IClassDocTester {
 
     @Override
     public List<ITestReport> test(ClassDoc classDoc) {
+        // ensure the custom dictionaries are read
+        readCustomDictionaries();
+
         List<ITestReport> reports = new ArrayList<ITestReport>();
 
         // set up the spell checker

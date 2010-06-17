@@ -100,7 +100,7 @@ use this test with:
     -docletpath com.github.ojdcheck.jazzy/bin \
     -customonly \
     -tests com.github.ojdcheck.jazzy.SpellCheckerTest \
-    -sourcepath com.github.ojdcheck/src
+    -sourcepath com.github.ojdcheck/src \
     com.github.ojdcheck
 
 Currently, it uses the dictionaries from WinEdt as distributed with Jazzy (see english.txt):
@@ -112,6 +112,23 @@ packaged with the amSpell spellchecker (by Erik Frambach. e-mail: e.h.m.frambach
 
 The dictionaries are included with Jazzy with permission from Patrick and Aleksander."
 
+Additional dictionaries can be added using the -ojdcparam option of the OpenJavaDocCheck
+doclet. The parameter to set is jazzy.dict, and the dictionary needs to be available on 
+the classpath. The following example uses the demo dictionary chemistry.dict in the
+dicts/ folder in this repository:
+
+  javadoc -doclet com.github.ojdcheck.OpenJavaDocCheck \
+    -docletpath com.github.ojdcheck.jazzy/jar/jazzy-core.jar \
+    -docletpath com.github.ojdcheck/bin \
+    -docletpath com.github.ojdcheck.jazzy/bin \
+    -docletpath dicts/ \
+    -ojdcparam jazzy.dict=chemistry.dict \
+    -customonly \
+    -tests com.github.ojdcheck.jazzy.SpellCheckerTest \
+    -sourcepath com.github.ojdcheck/src \
+    com.github.ojdcheck
+
+The jazzy.dict parameter takes a ':' separated list of dictionaries.
 
 Building with Ant
 -----------------
