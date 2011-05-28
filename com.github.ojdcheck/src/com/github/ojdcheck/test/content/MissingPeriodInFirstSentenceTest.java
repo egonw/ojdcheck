@@ -38,6 +38,7 @@ import com.github.ojdcheck.test.ITestReport;
 import com.github.ojdcheck.test.TestReport;
 import com.github.ojdcheck.util.JavaDocHelper;
 import com.sun.javadoc.ClassDoc;
+import com.sun.javadoc.FieldDoc;
 import com.sun.javadoc.MethodDoc;
 import com.sun.javadoc.Tag;
 
@@ -61,6 +62,16 @@ public class MissingPeriodInFirstSentenceTest extends AbstractOJDCheckTest imple
             	Tag[] tags = method.firstSentenceTags();
             	checkFirstSentence(classDoc, reports, tags, method.position().line());
             }
+        }
+        
+        // check fields
+        FieldDoc[] fields = classDoc.fields();
+        for (FieldDoc field : fields) {
+        	if (JavaDocHelper.hasJavaDoc(field) &&
+        		!JavaDocHelper.hasInheritedDoc(field)) {
+        		Tag[] tags = field.firstSentenceTags();
+            	checkFirstSentence(classDoc, reports, tags, field.position().line());
+        	}
         }
 
         // do not fail if there is no JavaDoc
