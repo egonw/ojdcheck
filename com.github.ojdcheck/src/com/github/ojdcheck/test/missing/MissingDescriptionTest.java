@@ -81,10 +81,7 @@ public class MissingDescriptionTest extends AbstractOJDCheckTest implements ICla
                     // screen out the valueOf()
                     // method from Enum types since they are not overridden and
                     // do not need javadoc comments.
-                    continue;
-                }
-                
-                if (method.tags("inheritDoc").length == 0) {
+                } else if (method.tags("inheritDoc").length == 0) {
                     reports.add(
                         new TestReport(
                             this, classDoc,
