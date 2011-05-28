@@ -51,6 +51,7 @@ import com.github.ojdcheck.test.missing.MissingDescriptionTest;
 import com.github.ojdcheck.test.missing.MissingParamTagTest;
 import com.github.ojdcheck.test.missing.MissingReturnTagTest;
 import com.github.ojdcheck.test.mistake.MultipleVersionTagsTest;
+import com.github.ojdcheck.test.mistake.ParamDefinedForMethodWithoutTest;
 import com.github.ojdcheck.test.mistake.ReturnsOnVoidMethodTest;
 import com.github.ojdcheck.test.mistake.ReturnsTypoTest;
 import com.github.ojdcheck.test.template.ExceptionTemplateTest;
@@ -84,6 +85,7 @@ public class OpenJavaDocCheck extends Doclet {
         docTests.add(new ReturnsTypoTest());
         docTests.add(new ReturnsOnVoidMethodTest());
         docTests.add(new MultipleVersionTagsTest());
+        docTests.add(new ParamDefinedForMethodWithoutTest());
     }
 
     /**
