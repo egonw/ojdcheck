@@ -38,7 +38,9 @@ import com.github.ojdcheck.test.AbstractOJDCheckTest;
 import com.github.ojdcheck.test.IClassDocTester;
 import com.github.ojdcheck.test.ITestReport;
 import com.github.ojdcheck.test.TestReport;
+import com.github.ojdcheck.util.JavaDocHelper;
 import com.sun.javadoc.ClassDoc;
+import com.sun.javadoc.FieldDoc;
 import com.sun.javadoc.MethodDoc;
 
 /**
@@ -93,6 +95,21 @@ public class MissingDescriptionTest extends AbstractOJDCheckTest implements ICla
                     );
                 }
             }
+        }
+        FieldDoc[] fields = classDoc.fields();
+        for (FieldDoc field : fields) {
+        	if (!JavaDocHelper.hasJavaDoc(field) &&
+        		!JavaDocHelper.hasInheritedDoc(field)) {
+        		reports.add(
+        			new TestReport(
+        				this, classDoc,
+        				"No documentation given for the method " +
+        				field.name() + "().",
+        				field.position().line(),
+        				null
+        			)
+        		);
+        	}
         }
         return reports;
     }
