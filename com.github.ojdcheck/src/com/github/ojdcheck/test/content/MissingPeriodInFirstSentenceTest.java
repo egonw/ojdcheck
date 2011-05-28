@@ -1,4 +1,4 @@
-/* Copyright (c) 2009-2010  Egon Willighagen <egonw@users.sf.net>
+/* Copyright (c) 2009-2011  Egon Willighagen <egonw@users.sf.net>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,6 +38,7 @@ import com.github.ojdcheck.test.ITestReport;
 import com.github.ojdcheck.test.TestReport;
 import com.github.ojdcheck.util.JavaDocHelper;
 import com.sun.javadoc.ClassDoc;
+import com.sun.javadoc.MethodDoc;
 import com.sun.javadoc.Tag;
 
 public class MissingPeriodInFirstSentenceTest extends AbstractOJDCheckTest implements IClassDocTester {
@@ -52,13 +53,31 @@ public class MissingPeriodInFirstSentenceTest extends AbstractOJDCheckTest imple
 
     public List<ITestReport> test(ClassDoc classDoc) {
         List<ITestReport> reports = new ArrayList<ITestReport>();
+        // check methods
+        MethodDoc[] methods = classDoc.methods();
+        for (MethodDoc method : methods) {
+            if (JavaDocHelper.hasJavaDoc(method) &&
+            	!JavaDocHelper.hasInheritedDoc(method)) {
+            	Tag[] tags = method.firstSentenceTags();
+            	checkFirstSentence(classDoc, reports, tags, method.position().line());
+            }
+        }
+
         // do not fail if there is no JavaDoc
         if (!JavaDocHelper.hasJavaDoc(classDoc)) return reports;
         // do not check if inheriting JavaDoc
         if (JavaDocHelper.hasInheritedDoc(classDoc)) return reports;
 
+        // check class
         Tag[] tags = classDoc.firstSentenceTags();
-        StringBuilder concat = new StringBuilder();
+        checkFirstSentence(classDoc, reports, tags, classDoc.position().line());
+        
+        return reports;
+    }
+
+	private void checkFirstSentence(ClassDoc classDoc,
+			List<ITestReport> reports, Tag[] tags, int line) {
+		StringBuilder concat = new StringBuilder();
         for (Tag tag : tags) {
             concat.append(tag.text());
         }
@@ -68,12 +87,11 @@ public class MissingPeriodInFirstSentenceTest extends AbstractOJDCheckTest imple
                     this, classDoc,
                     "There is no period to end the first sentence: '" +
                     concat.toString() + "'",
-                    classDoc.position().line(), null
+                    line, null
                 )
             );
         }
-        return reports;
-    }
+	}
 
     public Priority getPriority() {
         return Priority.ERROR;
