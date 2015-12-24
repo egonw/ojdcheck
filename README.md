@@ -133,7 +133,7 @@ The jazzy.dict parameter takes a ':' separated list of dictionaries.
 Building with Ant
 -----------------
 
-1. ant clean jar
+1. mvn clean install
 2. ant -f build-jazzy.xml clean jar
 
 Then you can run the Doclet with:
