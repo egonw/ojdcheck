@@ -3,7 +3,7 @@ Open JavaDoc Check
 
 Project where I plan to write an Open Source DocCheck alternative.
 
-![](http://github.com/egonw/ojdcheck/raw/master/ojdcheckXHTML.png)
+![](/ojdcheckXHTML.png)
 
 Example output:
 
